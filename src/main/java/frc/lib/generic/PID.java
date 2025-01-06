@@ -1,6 +1,6 @@
 package frc.lib.generic;
 
-import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.config.PIDConstants;
 import edu.wpi.first.math.MathUtil;
 
 /** Implements a PID control loop. */

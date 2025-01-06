@@ -54,24 +54,6 @@ public class Motor implements LoggableHardware {
     public void setExternalVelocitySupplier(DoubleSupplier velocitySupplier) { }
 
     /**
-     * In case you need to re-set the slot on runtime, use this.
-     *
-     * @param slot       The new slot values
-     * @param slotNumber The slot number to modify
-     */
-    public void resetSlot(MotorProperties.Slot slot, int slotNumber) {
-        if (getCurrentConfiguration() == null) return;
-
-        switch (slotNumber) {
-            case 0 -> getCurrentConfiguration().slot0 = slot;
-            case 1 -> getCurrentConfiguration().slot1 = slot;
-            case 2 -> getCurrentConfiguration().slot2 = slot;
-        }
-
-        configure(getCurrentConfiguration());
-    }
-
-    /**
      * Sets the output of the motor based on the specified control mode and desired output value.
      *
      * <p>This method utilizes the built-in feedforward and PID controller to achieve precise control

@@ -5,13 +5,16 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import frc.lib.generic.OdometryThread;
 import frc.lib.generic.hardware.encoder.*;
 
 import java.util.*;
 
+import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static frc.lib.generic.hardware.encoder.EncoderInputs.ENCODER_INPUTS_LENGTH;
 
 /**
@@ -27,8 +30,9 @@ public class GenericCanCoder extends Encoder {
 
     private final Map<String, Queue<Double>> signalQueueList = new HashMap<>();
 
-    private final List<StatusSignal<Double>> signalsToUpdateList = new ArrayList<>();
-    private final StatusSignal<Double> positionSignal, velocitySignal;
+    private final List<BaseStatusSignal> signalsToUpdateList = new ArrayList<>();
+    private final StatusSignal<Angle> positionSignal;
+    private final StatusSignal<AngularVelocity> velocitySignal;
 
     public GenericCanCoder(String name, int canCoderID, String canbusName) {
         super(name);
@@ -73,8 +77,10 @@ public class GenericCanCoder extends Encoder {
         canCoderConfig.MagnetSensor.SensorDirection = encoderConfiguration.invert ?
                 SensorDirectionValue.Clockwise_Positive : SensorDirectionValue.CounterClockwise_Positive;
 
-        canCoderConfig.MagnetSensor.AbsoluteSensorRange = encoderConfiguration.sensorRange == EncoderProperties.SensorRange.ZeroToOne
-                ? AbsoluteSensorRangeValue.Unsigned_0To1 : AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+        canCoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint =
+                encoderConfiguration.sensorRange == EncoderProperties.SensorRange.ZeroToOne
+
+                ? 1 : 0.5;
 
         canCoder.optimizeBusUtilization();
 
@@ -120,14 +126,14 @@ public class GenericCanCoder extends Encoder {
     }
 
     private double getEncoderPositionPrivate() {
-        return positionSignal.getValue();
+        return positionSignal.getValue().in(Rotations);
     }
 
     private double getEncoderVelocityPrivate() {
-        return velocitySignal.getValue();
+        return velocitySignal.getValue().in(RotationsPerSecond);
     }
 
-    private void setupSignal(final StatusSignal<Double> correspondingSignal, int updateFrequency) {
+    private void setupSignal(final BaseStatusSignal correspondingSignal, int updateFrequency) {
         signalsToUpdateList.add(correspondingSignal);
         correspondingSignal.setUpdateFrequency(updateFrequency);
     }
