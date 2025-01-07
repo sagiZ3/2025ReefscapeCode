@@ -1,5 +1,7 @@
 package frc.robot.poseestimation.photoncamera;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -28,7 +30,7 @@ public class AprilTagsCamera extends PhotonCameraIO {
 
         photonCamera = new PhotonCamera(cameraName);
         photonPoseEstimator = new org.photonvision.PhotonPoseEstimator(
-                APRIL_TAG_FIELD_LAYOUT,
+                AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField),
                 org.photonvision.PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
                 robotCenterToCamera
         );
@@ -83,7 +85,17 @@ public class AprilTagsCamera extends PhotonCameraIO {
 
     @Override
     protected void refreshInputs(CameraInputsAutoLogged inputs) {
-        final PhotonPipelineResult latestResult = photonCamera.getAllUnreadResults().get(0);
+        final List<PhotonPipelineResult> results = photonCamera.getAllUnreadResults();
+
+        if (results.isEmpty()) {
+            inputs.hasResult = false;
+            inputs.visibleTags = 0;
+            inputs.estimatedRobotPose = new Pose3d();
+            Logger.recordOutput("UsedTags/" + photonCamera.getName(), new Pose2d[0]);
+            return;
+        }
+
+        final PhotonPipelineResult latestResult = results.get(0);
         final Optional<EstimatedRobotPose> optionalEstimatedRobotPose = photonPoseEstimator.update(latestResult);
 
         inputs.hasResult = hasResult(optionalEstimatedRobotPose);

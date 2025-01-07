@@ -14,7 +14,7 @@ public class ExtendedDCMotorSim extends DCMotorSim {
     }
 
     public ExtendedDCMotorSim(DCMotor gearbox, double gearing, double jKgMetersSquared) {
-        super(LinearSystemId.createDCMotorSystem(gearbox, jKgMetersSquared, gearing), gearbox, gearing);
+        super(LinearSystemId.createDCMotorSystem(gearbox, jKgMetersSquared, gearing), gearbox);
     }
 
     /**
