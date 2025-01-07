@@ -5,19 +5,12 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkLowLevel;
-import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SignalsConfig;
-import com.revrobotics.spark.config.SmartMotionConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.lib.generic.Feedforward;
 import frc.lib.generic.OdometryThread;
-import frc.lib.generic.hardware.motor.Motor;
-import frc.lib.generic.hardware.motor.MotorConfiguration;
-import frc.lib.generic.hardware.motor.MotorInputs;
-import frc.lib.generic.hardware.motor.MotorProperties;
-import frc.lib.generic.hardware.motor.MotorSignal;
+import frc.lib.generic.hardware.motor.*;
 import frc.lib.generic.hardware.motor.hardware.MotorUtilities;
 import frc.lib.math.Conversions;
 import frc.lib.scurve.InputParameter;
@@ -346,7 +339,7 @@ public abstract class GenericSparkBase extends Motor {
         return goalState != null
                 && goalState.equals(newGoal)
                 && !hasStoppedOccurred
-                && (Logger.getRealTimestamp() - getLastProfileCalculationTimestamp() <= 100000); //(0.1 sec has passed)
+                && (Logger.getTimestamp() - getLastProfileCalculationTimestamp() <= 100000); //(0.1 sec has passed)
     }
 
     protected SCurveGenerator getSCurveGenerator() {

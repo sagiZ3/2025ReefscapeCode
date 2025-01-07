@@ -1,5 +1,6 @@
 package frc.robot.poseestimation.photoncamera;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,7 +16,7 @@ public class VisionSimulation {
     private final SimCameraProperties properties = new SimCameraProperties();
 
     public VisionSimulation() {
-        visionSystemSim.addAprilTags(AprilTagFields.k2024Crescendo.loadAprilTagLayoutField());
+        visionSystemSim.addAprilTags(AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField));
         setupCameraProperties();
     }
 

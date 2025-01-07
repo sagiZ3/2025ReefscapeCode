@@ -21,31 +21,31 @@ public class PhotonDetectionCamera extends DetectionCameraIO {
         if (camera == null || !camera.isConnected())
             return;
 
-        final PhotonPipelineResult result = camera.getLatestResult();
+        final List<PhotonPipelineResult> results = camera.getAllUnreadResults();
 
-        if (!result.hasTargets()) return;
+        if (results.isEmpty()) return;
 
-        final List<PhotonTrackedTarget> results = result.getTargets();
-        final double[] array =  new double[results.size()];
+        final List<PhotonTrackedTarget> latestResultTargets = results.get(0).getTargets();
+        final double[] array = new double[latestResultTargets.size()];
 
         for(int i = 0; i < array.length; i++) {
-            array[i] = results.get(i).getYaw();
+            array[i] = latestResultTargets.get(i).getYaw();
         }
 
         inputs.yaws = array;
 
-        final double[] targetYawValues = getClosestTargetYawValues(result);
+        final double[] targetYawValues = getClosestTargetYawValues(latestResultTargets);
 
         inputs.closestTargetYaw = targetYawValues[0];
         inputs.closestTargetPitch = targetYawValues[1];
     }
 
-    private double[] getClosestTargetYawValues(PhotonPipelineResult result) {
+    private double[] getClosestTargetYawValues(List<PhotonTrackedTarget> latestResultTargets) {
         double lowestSum = 1000;
         double closestTargetYaw = 0;
         double closestTargetPitch = 0;
 
-        for (PhotonTrackedTarget target : result.getTargets()) {
+        for (PhotonTrackedTarget target : latestResultTargets) {
             final double currentCameraDistance = Math.abs(target.getYaw()) + Math.abs(target.getPitch());
 
             if (lowestSum > currentCameraDistance) {

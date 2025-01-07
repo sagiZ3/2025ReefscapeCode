@@ -2,7 +2,6 @@ package frc.lib.generic.hardware.motor.hardware.ctre;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.lib.generic.hardware.motor.*;
@@ -54,13 +53,6 @@ public class GenericTalonSRX extends Motor {
     @Override
     public MotorConfiguration getCurrentConfiguration() {
         return currentConfiguration;
-    }
-
-    @Override
-    public void resetSlot(MotorProperties.Slot slot, int slotNumber) {
-        talonSRX.config_kP(slotNumber, slot.kP());
-        talonSRX.config_kI(slotNumber, slot.kI());
-        talonSRX.config_kD(slotNumber, slot.kD());
     }
 
     @Override

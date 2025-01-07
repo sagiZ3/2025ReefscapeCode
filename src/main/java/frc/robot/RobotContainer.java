@@ -45,7 +45,7 @@ public class RobotContainer {
 
     private final Controller driveController = new Controller(0);
 
-    private final LoggedDashboardChooser<Command> autoChooser;
+    private LoggedDashboardChooser<Command> autoChooser;
 
     public RobotContainer() {
         setupAutonomous();
@@ -54,7 +54,7 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
+        return autoChooser.get();
     }
 
     private void configureBindings() {

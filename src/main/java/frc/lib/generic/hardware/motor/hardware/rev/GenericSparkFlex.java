@@ -117,7 +117,7 @@ public class GenericSparkFlex extends GenericSparkBase {
                         SparkClosedLoopController.ArbFFUnits.kVoltage);
 
                 previousSetpoint = currentSetpoint;
-                lastProfileCalculationTimestamp = Logger.getRealTimestamp();
+                lastProfileCalculationTimestamp = Logger.getTimestamp();
             }
 
             case VELOCITY_TRAPEZOIDAL -> {
@@ -131,7 +131,7 @@ public class GenericSparkFlex extends GenericSparkBase {
                         SparkClosedLoopController.ArbFFUnits.kVoltage);
 
                 previousSetpoint = currentSetpoint;
-                lastProfileCalculationTimestamp = Logger.getRealTimestamp();
+                lastProfileCalculationTimestamp = Logger.getTimestamp();
             }
 
             case POSITION_S_CURVE -> {
@@ -147,7 +147,7 @@ public class GenericSparkFlex extends GenericSparkBase {
                         ClosedLoopSlot.kSlot0, feedforwardOutput,
                         SparkClosedLoopController.ArbFFUnits.kVoltage);
 
-                lastProfileCalculationTimestamp = Logger.getRealTimestamp();
+                lastProfileCalculationTimestamp = Logger.getTimestamp();
             }
         }
     }

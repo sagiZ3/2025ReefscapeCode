@@ -42,7 +42,7 @@ public class SimulatedIMU extends Pigeon {
 
     @Override
     protected void refreshInputs(PigeonInputs inputs) {
-        if (SWERVE == null) return; //The gyro is initialized before the swerve at the beginning
+//        if (SWERVE == null) return; //The gyro is initialized before the swerve at the beginning
 
         inputs.setSignalsToLog(signalsToLog);
 

@@ -31,14 +31,14 @@ public class PID  {
     private boolean continuous;
 
     // The error at the time of the most recent call to calculate()
-    private double m_positionError;
-    private double m_velocityError;
+    private double positionError;
+    private double velocityError;
 
     // The error at the time of the second-most-recent call to calculate() (used to compute velocity)
-    private double m_prevError;
+    private double prevError;
 
     // The sum of the errors for use in the integral calc
-    private double m_totalError;
+    private double totalError;
 
     // The error that is considered at setpoint.
     private double m_positionTolerance = 0.05;
@@ -199,12 +199,12 @@ public class PID  {
 
         if (continuous) {
             double errorBound = (maximumInput - minimumInput) / 2.0;
-            m_positionError = MathUtil.inputModulus(m_setpoint - m_measurement, -errorBound, errorBound);
+            positionError = MathUtil.inputModulus(m_setpoint - m_measurement, -errorBound, errorBound);
         } else {
-            m_positionError = m_setpoint - m_measurement;
+            positionError = m_setpoint - m_measurement;
         }
 
-        m_velocityError = (m_positionError - m_prevError) / 0.02;
+        velocityError = (positionError - prevError) / 0.02;
     }
 
     /**
@@ -226,8 +226,8 @@ public class PID  {
     public boolean atSetpoint() {
         return m_haveMeasurement
                 && m_haveSetpoint
-                && Math.abs(m_positionError) < m_positionTolerance
-                && Math.abs(m_velocityError) < m_velocityTolerance;
+                && Math.abs(positionError) < m_positionTolerance
+                && Math.abs(velocityError) < m_velocityTolerance;
     }
 
     /**
@@ -299,7 +299,7 @@ public class PID  {
      * @return The error.
      */
     public double getPositionError() {
-        return m_positionError;
+        return positionError;
     }
 
     /**
@@ -308,7 +308,7 @@ public class PID  {
      * @return The velocity error.
      */
     public double getVelocityError() {
-        return m_velocityError;
+        return velocityError;
     }
 
     /**
@@ -332,39 +332,39 @@ public class PID  {
      */
     public double calculate(double measurement) {
         m_measurement = measurement;
-        m_prevError = m_positionError;
+        prevError = positionError;
         m_haveMeasurement = true;
 
         if (continuous) {
             double errorBound = (maximumInput - minimumInput) / 2.0;
-            m_positionError = MathUtil.inputModulus(m_setpoint - m_measurement, -errorBound, errorBound);
+            positionError = MathUtil.inputModulus(m_setpoint - m_measurement, -errorBound, errorBound);
         } else {
-            m_positionError = m_setpoint - m_measurement;
+            positionError = m_setpoint - m_measurement;
         }
 
-        m_velocityError = (m_positionError - m_prevError) / 0.02;
+        velocityError = (positionError - prevError) / 0.02;
 
         // If the absolute value of the position error is greater than IZone, reset the total error
-        if (Math.abs(m_positionError) > iZone) {
-            m_totalError = 0;
+        if (Math.abs(positionError) > iZone) {
+            totalError = 0;
         } else if (kI != 0) {
-            m_totalError =
+            totalError =
                     MathUtil.clamp(
-                            m_totalError + m_positionError * 0.02,
+                            totalError + positionError * 0.02,
                             minimumIntegral / kI,
                             maximumIntegral / kI);
         }
 
-        final double output = kP * m_positionError + kI * m_totalError + kD * m_velocityError;
+        final double output = kP * positionError + kI * totalError + kD * velocityError;
         return output + getNominalOutput(output);
     }
 
     /** Resets the previous error and the integral term. */
     public void reset() {
-        m_positionError = 0;
-        m_prevError = 0;
-        m_totalError = 0;
-        m_velocityError = 0;
+        positionError = 0;
+        prevError = 0;
+        totalError = 0;
+        velocityError = 0;
         m_haveMeasurement = false;
     }
 

@@ -1,6 +1,5 @@
 package frc.robot.poseestimation.photoncamera;
 
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -18,8 +17,7 @@ import java.util.Optional;
 
 import static frc.robot.GlobalConstants.CURRENT_MODE;
 import static frc.robot.poseestimation.photoncamera.CameraFactory.VISION_SIMULATION;
-import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.MAXIMUM_AMBIGUITY;
-import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.TAG_ID_TO_POSE;
+import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.*;
 
 public class AprilTagsCamera extends PhotonCameraIO {
     private final PhotonCamera photonCamera;
@@ -30,7 +28,7 @@ public class AprilTagsCamera extends PhotonCameraIO {
 
         photonCamera = new PhotonCamera(cameraName);
         photonPoseEstimator = new org.photonvision.PhotonPoseEstimator(
-                AprilTagFields.k2024Crescendo.loadAprilTagLayoutField(),
+                APRIL_TAG_FIELD_LAYOUT,
                 org.photonvision.PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
                 robotCenterToCamera
         );
@@ -85,16 +83,16 @@ public class AprilTagsCamera extends PhotonCameraIO {
 
     @Override
     protected void refreshInputs(CameraInputsAutoLogged inputs) {
-        final PhotonPipelineResult latestResult = photonCamera.getLatestResult();
-        final Optional<EstimatedRobotPose> optionalEstimatedRobotPose = photonPoseEstimator.update(photonCamera.getLatestResult());
+        final PhotonPipelineResult latestResult = photonCamera.getAllUnreadResults().get(0);
+        final Optional<EstimatedRobotPose> optionalEstimatedRobotPose = photonPoseEstimator.update(latestResult);
 
         inputs.hasResult = hasResult(optionalEstimatedRobotPose);
 
         if (inputs.hasResult) {
             final EstimatedRobotPose estimatedRobotPose = optionalEstimatedRobotPose.get();
 
-            if (photonCamera.getLatestResult().getBestTarget() != null)
-                Logger.recordOutput("CameraPitch/" + photonCamera.getName(), photonCamera.getLatestResult().getBestTarget().getPitch());
+            if (latestResult.getBestTarget() != null)
+                Logger.recordOutput("CameraPitch/" + photonCamera.getName(), latestResult.getBestTarget().getPitch());
 
             inputs.estimatedRobotPose = estimatedRobotPose.estimatedPose;
             inputs.lastResultTimestamp = estimatedRobotPose.timestampSeconds;

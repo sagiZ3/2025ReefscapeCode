@@ -6,6 +6,7 @@ import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Angle;
 import frc.lib.generic.OdometryThread;
 import frc.lib.generic.hardware.pigeon.Pigeon;
 import frc.lib.generic.hardware.pigeon.PigeonConfiguration;
@@ -18,14 +19,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import static edu.wpi.first.units.Units.Rotations;
 import static frc.lib.generic.hardware.pigeon.PigeonInputs.PIGEON_INPUTS_LENGTH;
 import static frc.lib.generic.hardware.pigeon.hardware.PigeonUtilities.handleThreadedInputs;
 
 public class GenericPigeon2 extends Pigeon {
     private final Pigeon2 pigeon;
 
-    private final StatusSignal<Double> yawSignal, pitchSignal, rollSignal;
-    private final List<StatusSignal<Double>> signalsToUpdateList = new ArrayList<>();
+    private final StatusSignal<Angle> yawSignal, pitchSignal, rollSignal;
+    private final List<BaseStatusSignal> signalsToUpdateList = new ArrayList<>();
 
     private final boolean[] signalsToLog = new boolean[PIGEON_INPUTS_LENGTH];
     private final Map<String, Queue<Double>> signalQueueList = new HashMap<>();
@@ -108,18 +110,18 @@ public class GenericPigeon2 extends Pigeon {
     }
 
     private double getYawPrivate() {
-        return yawSignal.getValue();
+        return yawSignal.getValue().in(Rotations);
     }
 
     private double getPitchPrivate() {
-        return pitchSignal.getValue();
+        return pitchSignal.getValue().in(Rotations);
     }
 
     private double getRollPrivate() {
-        return rollSignal.getValue();
+        return rollSignal.getValue().in(Rotations);
     }
 
-    private void setupSignal(final StatusSignal<Double> correspondingSignal, final int updateFrequency) {
+    private void setupSignal(final BaseStatusSignal correspondingSignal, final int updateFrequency) {
         correspondingSignal.setUpdateFrequency(updateFrequency);
         signalsToUpdateList.add(correspondingSignal);
     }
