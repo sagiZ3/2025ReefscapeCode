@@ -24,13 +24,13 @@ public class Leds extends SubsystemBase {
         ledstrip.start();
     }
 
-    public static Command setLEDToPositionIndicator(Translation2d robotPose, Translation2d targetPose) {
+    public Command setLEDToPositionIndicator(Translation2d robotPose, Translation2d targetPose, double timeout) {
         return getCommandFromColours(() -> generatePositionIndicatorBuffer(
-                new Color8Bit(Color.RED),
-                new Color8Bit(Color.GREEN),
+                new Color8Bit(Color.kRed),
+                new Color8Bit(Color.kGreen),
                 robotPose,
                 targetPose
-        ));
+        ), timeout);
     }
 
     public Command setLEDStatus(LEDMode mode, double timeout) {
@@ -71,7 +71,7 @@ public class Leds extends SubsystemBase {
     }
 
     private void flashLEDStrip(Color8Bit[] colours) {
-        ledstrip.setData(getBufferFromColours(buffer, colours));
+        ledstrip.setData(getBufferFromColors(buffer, colours));
     }
 
     public enum LEDMode {

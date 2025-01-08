@@ -23,8 +23,7 @@ public class CustomLEDPatterns {
         timer.start();
     }
 
-    public static Color8Bit[] reduceBrightness(Color8Bit[] colours, int brightnessPercentage) {
-        double brightnessFactor = brightnessPercentage / 100.0;
+    public static Color8Bit[] reduceBrightness(Color8Bit[] colors, int brightnessPercentage) {
         final double brightnessFactor = brightnessPercentage / 100.0;
 
         final Color8Bit[] adjustedColors = new Color8Bit[colors.length];
@@ -40,10 +39,10 @@ public class CustomLEDPatterns {
             newGreen = Math.min(255, Math.max(0, newGreen));
             newBlue = Math.min(255, Math.max(0, newBlue));
 
-            adjustedColours[i] = new Color8Bit(newRed, newGreen, newBlue);
+            adjustedColors[i] = new Color8Bit(newRed, newGreen, newBlue);
         }
 
-        return adjustedColours;
+        return adjustedColors;
     }
 
     /**
@@ -58,6 +57,8 @@ public class CustomLEDPatterns {
      * @return The filled buffer with corrective LED colors.
      */
     public static Color8Bit[] generatePositionIndicatorBuffer(Color8Bit startColor, Color8Bit endColor, Translation2d robotPose, Translation2d targetPose) {
+        buffer = generateSingleColorBuffer(new Color8Bit(Color.kBlack));
+
         final double deltaX = robotPose.getX() - targetPose.getX();
         final double deltaY = robotPose.getY() - targetPose.getY();
 
@@ -87,8 +88,8 @@ public class CustomLEDPatterns {
      * @param color The color to fill the buffer.
      * @return The filled buffer.
      */
-    public static Color8Bit[] generateSingleColourBuffer(Color8Bit colour) {
-        Arrays.fill(buffer, colour);
+    public static Color8Bit[] generateSingleColorBuffer(Color8Bit color) {
+        Arrays.fill(buffer, color);
         return buffer;
     }
 
@@ -99,7 +100,7 @@ public class CustomLEDPatterns {
      * @param buffer The color buffer.
      * @return The updated LED buffer.
      */
-    public static AddressableLEDBuffer getBufferFromColours(AddressableLEDBuffer ledBuffer, Color8Bit[] buffer) {
+    public static AddressableLEDBuffer getBufferFromColors(AddressableLEDBuffer ledBuffer, Color8Bit[] buffer) {
         for (int i = 0; i < buffer.length; i++) {
             ledBuffer.setLED(i, buffer[i]);
         }
@@ -135,12 +136,10 @@ public class CustomLEDPatterns {
      * @param colors The colors to switch between.
      * @return The filled buffer.
      */
-    public static Color8Bit[] generateFlashingBuffer(Color8Bit... colours) {
-        if (counter % 25 == 0) //Make sure there's a delay between colour switching
-            buffer = generateSingleColourBuffer(colours[previousColour++]);
+    public static Color8Bit[] generateFlashingBuffer(Color8Bit... colors) {
         if (counter % 25 == 0) buffer = generateSingleColorBuffer(colors[previousColor++]);
 
-        previousColour %= colours.length;
+        previousColor %= colors.length;
         counter++;
 
         return buffer;
@@ -155,7 +154,7 @@ public class CustomLEDPatterns {
      * @return The filled buffer.
      */
     public static Color8Bit[] generateLoadingAnimationBuffer(Color8Bit color1, Color8Bit color2) {
-        buffer = generateSingleColourBuffer(new Color8Bit(Color.kBlack)); // Clear the buffer
+        buffer = generateSingleColorBuffer(new Color8Bit(Color.kBlack));
 
         final int midPoint = LEDS_COUNT / 2;
         final double time = timer.get() * 5;
@@ -179,10 +178,9 @@ public class CustomLEDPatterns {
      * @param secondColor The second color.
      * @return The filled buffer.
      */
-    public static Color8Bit[] generateBreathingBuffer(Color8Bit firstColour, Color8Bit secondColour) {
-        double x = timer.get();
-        return generateSingleColourBuffer(interpolateColours(firstColour, secondColour, cosInterpolate(x)));
+    public static Color8Bit[] generateBreathingBuffer(Color8Bit firstColor, Color8Bit secondColor) {
         final double x = timer.get();
+        return generateSingleColorBuffer(interpolateColors(firstColor, secondColor, cosInterpolate(x)));
     }
 
     /**
@@ -192,10 +190,7 @@ public class CustomLEDPatterns {
      * @param colors The colors to cycle through.
      * @return The filled buffer.
      */
-    public static Color8Bit[] generateCirclingBuffer(Color8Bit... colours) {
-        int colorsLength = colours.length;
-        float timerValue = (float) timer.get(); // Get current timer value
-        float timerPosition = timerValue * 13f % LEDS_COUNT; // Adjust the multiplier to control the speed
+    public static Color8Bit[] generateCirclingBuffer(Color8Bit... colors) {
         final int colorsLength = colors.length;
         final double timerValue = timer.get();
         final double timerPosition = timerValue * 13 % LEDS_COUNT;
@@ -229,8 +224,8 @@ public class CustomLEDPatterns {
      * @param color The color to use
      * @return The current state of the buffer
      */
-    public static Color8Bit[] generateOutwardsPointsBuffer(Color8Bit colour) {
-        buffer = generateSingleColourBuffer(new Color8Bit(Color.kBlack));
+    public static Color8Bit[] generateOutwardsPointsBuffer(Color8Bit color) {
+        buffer = generateSingleColorBuffer(new Color8Bit(Color.kBlack));
 
         final int quarter = LEDS_COUNT / 4;
 
@@ -239,11 +234,11 @@ public class CustomLEDPatterns {
         final int x = time == (int) time ? ((int) (time) % 11) : ((int) (time * 16 % 11));
 
         for (int i = quarter - 1 - x; i < quarter + 1 + x; i++) {
-            buffer[i] = new Color8Bit(new Color(colour.red, colour.green, colour.blue));
+            buffer[i] = new Color8Bit(new Color(color.red, color.green, color.blue));
         }
 
         for (int i = quarter * 3 - x; i < 2 + quarter * 3 + x; i++) {
-            buffer[i] = new Color8Bit(new Color(colour.red, colour.green, colour.blue));
+            buffer[i] = new Color8Bit(new Color(color.red, color.green, color.blue));
         }
 
         return buffer;
@@ -260,11 +255,7 @@ public class CustomLEDPatterns {
         return i;
     }
 
-
-    private static Color8Bit interpolateColors(Color8Bit color1, Color8Bit color2, double colorWeight) {
-        int red = (int) (color1.red * (1 - colorWeight) + color2.red * colorWeight);
-        int green = (int) (color1.green * (1 - colorWeight) + color2.green * colorWeight);
-        int blue = (int) (color1.blue * (1 - colorWeight) + color2.blue * colorWeight);
+    private static Color8Bit interpolateColors(Color8Bit startColor, Color8Bit endColor, double colorWeight) {
         final int red = (int) (startColor.red * (1 - colorWeight) + endColor.red * colorWeight);
         final int green = (int) (startColor.green * (1 - colorWeight) + endColor.green * colorWeight);
         final int blue = (int) (startColor.blue * (1 - colorWeight) + endColor.blue * colorWeight);

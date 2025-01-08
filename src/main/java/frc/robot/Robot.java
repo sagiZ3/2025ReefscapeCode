@@ -39,7 +39,10 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void disabledPeriodic() {
-        setLEDToPositionIndicator(POSE_ESTIMATOR.getCurrentPose(), new Translation2d(2, 2));
+        LEDS.setLEDToPositionIndicator(
+                POSE_ESTIMATOR.getCurrentPose().getTranslation(),
+                new Translation2d(2, 2),
+                10000);
     }
 
     @Override
