@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 public class CustomLEDPatterns {
     public static final int LEDS_COUNT = 46;
-    private static final double MAX_GREEN_RANGE = 2;
+    private static final double MAX_GREEN_RANGE_METERS = 2;
 
     private static final Timer timer = new Timer();
 
