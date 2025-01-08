@@ -124,7 +124,7 @@ public class CustomLEDPatterns {
     public static Color8Bit[] generateRainbowBuffer() {
         int hue;
 
-        for (var i = 0; i < LEDS_COUNT; i++) {
+        for (int i = 0; i < LEDS_COUNT; i++) {
             hue = (rainbowFirstPixel + (i * 180 / LEDS_COUNT)) % 180;
 
             buffer[i] = new Color8Bit(Color.fromHSV(hue, 255, 128));
@@ -135,7 +135,6 @@ public class CustomLEDPatterns {
 
         return buffer;
     }
-
 
     /**
      * Set the buffer to flash between a set of colors. This needs to be called periodically for the
@@ -169,14 +168,12 @@ public class CustomLEDPatterns {
         double time = timer.get() * 5; // Control the speed of the animation
         int progress = (int) time % (LEDS_COUNT / 2); // Get the current progress
 
-        // Fill from the middle outwards with color1
         for (int i = midPoint - progress; i <= midPoint; i++) {
             if (i >= 0) {
                 buffer[i] = color1;
             }
         }
 
-        // Fill from the middle outwards in the opposite direction with color2
         for (int i = midPoint + progress; i >= midPoint; i--) {
             if (i < LEDS_COUNT) {
                 buffer[i] = color2;
@@ -198,7 +195,6 @@ public class CustomLEDPatterns {
         return generateSingleColourBuffer(interpolateColours(firstColour, secondColour, cosInterpolate(x)));
     }
 
-
     /**
      * Circles through N colors across the LED strip, utilizing a smooth effect.
      * This should be called periodically.
@@ -210,35 +206,30 @@ public class CustomLEDPatterns {
         int colorsLength = colours.length;
         float timerValue = (float) timer.get(); // Get current timer value
         float timerPosition = timerValue * 13f % LEDS_COUNT; // Adjust the multiplier to control the speed
+        final double timerValue = timer.get();
+        final double timerPosition = timerValue * 13 % LEDS_COUNT;
 
         int index, colorIndex1, colorIndex2;
-        float colorIndexFloat, fraction;
+        double colorIndex, fraction;
 
         for (int i = 0; i < LEDS_COUNT; i++) {
             index = wrapIndex(i);
 
-            // Calculate the floating point color index for smooth transitions
-            colorIndexFloat = (timerPosition + i) % LEDS_COUNT / LEDS_COUNT * colorsLength;
+            colorIndex = (timerPosition + i) % LEDS_COUNT / LEDS_COUNT * colorsLength;
 
-            // Determine the previous and next color indices for interpolation
-            colorIndex1 = (int) colorIndexFloat;
+            colorIndex1 = (int) colorIndex;
             colorIndex2 = (colorIndex1 + 1) % colorsLength;
 
-            // Fractional part for interpolation (cosine interpolation for smooth transitions)
-            fraction = (float) cosInterpolate(colorIndexFloat - colorIndex1);
+            fraction = cosInterpolate(colorIndex - colorIndex1);
 
-            // Interpolate between the two colors
-            Color8Bit color1 = colours[colorIndex1];
-            Color8Bit color2 = colours[colorIndex2];
+            Color8Bit color1 = colors[colorIndex1];
+            Color8Bit color2 = colors[colorIndex2];
 
-            Color8Bit interpolatedColor = interpolateColours(color1, color2, fraction);
-
-            buffer[index] = interpolatedColor;
+            buffer[index] = interpolateColors(color1, color2, fraction);
         }
 
         return buffer;
     }
-
 
     /**
      * Clears the buffer, then moves a color from the middle outwards.
@@ -266,7 +257,6 @@ public class CustomLEDPatterns {
 
         return buffer;
     }
-
 
     private static int wrapIndex(int i) {
         while (i >= LEDS_COUNT)
