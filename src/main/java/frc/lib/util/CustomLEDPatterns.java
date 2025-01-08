@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 public class CustomLEDPatterns {
     public static final int LEDS_COUNT = 46;
+    protected final static double MAX_GREEN_RANGE = 2;
 
     private static int counter;
     private static int previousColour = 0;
@@ -43,6 +44,38 @@ public class CustomLEDPatterns {
         }
 
         return adjustedColours;
+    }
+
+    public static Color8Bit[] generatePositionIndicatorBuffer(Color8Bit startColor, Color8Bit endColor, Translation2d robotPose, Translation2d targetPose) {
+        final double deltaX = robotPose.getX() - targetPose.getX();
+        final double deltaY = robotPose.getY() - targetPose.getY();
+
+        final double normalizedY = Math.min(Math.abs(deltaY) / MAX_GREEN_RANGE, 1.0);
+        final double normalizedX = Math.min(Math.abs(deltaX) / MAX_GREEN_RANGE, 1.0);
+
+        Color8Bit leftColor = new Color8Bit(Color.kBlack);
+        Color8Bit rightColor = new Color8Bit(Color.kBlack);
+        Color8Bit frontColor = new Color8Bit(Color.kBlack);
+        Color8Bit backColor = new Color8Bit(Color.kBlack);
+
+        if (deltaX > 0) leftColor = interpolateColors(startColor, endColor, normalizedX);
+
+        if (deltaX < 0) rightColor = interpolateColors(startColor, endColor, normalizedX);
+
+        if (deltaY > 0) backColor = interpolateColors(startColor, endColor, normalizedY);
+
+        if (deltaY < 0) frontColor = interpolateColors(startColor, endColor, normalizedY);
+
+        buffer[0] = leftColor;
+        buffer[46] = leftColor;
+        buffer[23] = rightColor;
+        buffer[24] = rightColor;
+        buffer[11] = frontColor;
+        buffer[12] = frontColor;
+        buffer[34] = backColor;
+        buffer[35] = backColor;
+
+        return buffer;
     }
 
     /**
@@ -231,10 +264,10 @@ public class CustomLEDPatterns {
     }
 
 
-    private static Color8Bit interpolateColours(Color8Bit color1, Color8Bit color2, double fraction) {
-        int red = (int) (color1.red * (1 - fraction) + color2.red * fraction);
-        int green = (int) (color1.green * (1 - fraction) + color2.green * fraction);
-        int blue = (int) (color1.blue * (1 - fraction) + color2.blue * fraction);
+    private static Color8Bit interpolateColors(Color8Bit color1, Color8Bit color2, double colorWeight) {
+        int red = (int) (color1.red * (1 - colorWeight) + color2.red * colorWeight);
+        int green = (int) (color1.green * (1 - colorWeight) + color2.green * colorWeight);
+        int blue = (int) (color1.blue * (1 - colorWeight) + color2.blue * colorWeight);
 
         return new Color8Bit(red, green, blue);
     }
