@@ -53,15 +53,15 @@ public class CustomLEDPatterns {
      *
      * @param startColor The color when the robot is at the furthest position.
      * @param endColor   The color when the robot is at the closest position.
-     * @param robotPose  The current robot position.
-     * @param targetPose The target position.
+     * @param robotPosition  The current robot position.
+     * @param targetPosition The target position.
      * @return The filled buffer with corrective LED colors.
      */
-    public static Color8Bit[] generatePositionIndicatorBuffer(Color8Bit startColor, Color8Bit endColor, Translation2d robotPose, Translation2d targetPose) {
+    public static Color8Bit[] generatePositionIndicatorBuffer(Color8Bit startColor, Color8Bit endColor, Translation2d robotPosition, Translation2d targetPosition) {
         buffer = generateSingleColorBuffer(new Color8Bit(Color.kBlack));
 
-        final double deltaX = robotPose.getX() - targetPose.getX();
-        final double deltaY = robotPose.getY() - targetPose.getY();
+        final double deltaX = robotPosition.getX() - targetPosition.getX();
+        final double deltaY = robotPosition.getY() - targetPosition.getY();
 
         final double normalizedY = Math.min(Math.abs(deltaY) / MAX_GREEN_RANGE_METERS, 1.0);
         final double normalizedX = Math.min(Math.abs(deltaX) / MAX_GREEN_RANGE_METERS, 1.0);
