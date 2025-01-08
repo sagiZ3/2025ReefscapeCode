@@ -52,7 +52,6 @@ public class RobotContainer {
         configureBindings();
     }
 
-
     public Command getAutonomousCommand() {
         return autoChooser.get();
     }
