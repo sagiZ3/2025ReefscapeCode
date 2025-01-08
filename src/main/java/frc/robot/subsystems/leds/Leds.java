@@ -1,5 +1,6 @@
 package frc.robot.subsystems.leds;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.util.Color;
@@ -11,12 +12,7 @@ import frc.lib.util.CustomLEDPatterns;
 
 import java.util.function.Supplier;
 
-import static frc.lib.util.CustomLEDPatterns.LEDS_COUNT;
-import static frc.lib.util.CustomLEDPatterns.generateBreathingBuffer;
-import static frc.lib.util.CustomLEDPatterns.generateCirclingBuffer;
-import static frc.lib.util.CustomLEDPatterns.generateFlashingBuffer;
-import static frc.lib.util.CustomLEDPatterns.generateOutwardsPointsBuffer;
-import static frc.lib.util.CustomLEDPatterns.getBufferFromColours;
+import static frc.lib.util.CustomLEDPatterns.*;
 
 public class Leds extends SubsystemBase {
     private static final AddressableLED ledstrip = new AddressableLED(0);
@@ -26,6 +22,15 @@ public class Leds extends SubsystemBase {
         ledstrip.setLength(LEDS_COUNT);
         ledstrip.setData(buffer);
         ledstrip.start();
+    }
+
+    public Command setLEDToPositionIndicator(Translation2d robotPosition, Translation2d targetPosition, double timeout) {
+        return getCommandFromColours(() -> generatePositionIndicatorBuffer(
+                new Color8Bit(Color.kRed),
+                new Color8Bit(Color.kGreen),
+                robotPosition,
+                targetPosition
+        ), timeout);
     }
 
     public Command setLEDStatus(LEDMode mode, double timeout) {
@@ -66,7 +71,7 @@ public class Leds extends SubsystemBase {
     }
 
     private void flashLEDStrip(Color8Bit[] colours) {
-        ledstrip.setData(getBufferFromColours(buffer, colours));
+        ledstrip.setData(getBufferFromColors(buffer, colours));
     }
 
     public enum LEDMode {
