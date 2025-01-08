@@ -1,5 +1,6 @@
 package frc.lib.util;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
@@ -71,7 +72,7 @@ public class CustomLEDPatterns {
         final Color8Bit backColor = deltaY > 0 ? interpolateColors(startColor, endColor, normalizedY) : new Color8Bit(Color.kBlack);
 
         buffer[0] = leftColor;
-        buffer[46] = leftColor;
+        buffer[45] = leftColor;
         buffer[23] = rightColor;
         buffer[24] = rightColor;
         buffer[11] = frontColor;
@@ -245,12 +246,9 @@ public class CustomLEDPatterns {
     }
 
     private static int wrapIndex(int i) {
-        while (i >= LEDS_COUNT)
-            i -= LEDS_COUNT;
+        while (i >= LEDS_COUNT) i -= LEDS_COUNT;
 
-        while (i < 0) {
-            i += LEDS_COUNT;
-        }
+        while (i < 0) i += LEDS_COUNT;
 
         return i;
     }
@@ -264,6 +262,6 @@ public class CustomLEDPatterns {
     }
 
     private static double cosInterpolate(double x) {
-        return ((1 - Math.cos(x * Math.PI)) * 0.5);
+        return (1 - Math.cos(x * Math.PI)) * 0.5;
     }
 }
