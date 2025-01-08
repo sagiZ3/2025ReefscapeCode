@@ -24,12 +24,12 @@ public class Leds extends SubsystemBase {
         ledstrip.start();
     }
 
-    public Command setLEDToPositionIndicator(Translation2d robotPose, Translation2d targetPose, double timeout) {
+    public Command setLEDToPositionIndicator(Translation2d robotPosition, Translation2d targetPosition, double timeout) {
         return getCommandFromColours(() -> generatePositionIndicatorBuffer(
                 new Color8Bit(Color.kRed),
                 new Color8Bit(Color.kGreen),
-                robotPose,
-                targetPose
+                robotPosition,
+                targetPosition
         ), timeout);
     }
 
