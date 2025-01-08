@@ -28,6 +28,49 @@ public class Leds extends SubsystemBase {
         ledstrip.start();
     }
 
+    public static void correctRobotPositionFade(Translation2d robotPose, Translation2d targetPose) {
+        final double deltaX = robotPose.getX() - targetPose.getX();
+        final double deltaY = robotPose.getY() - targetPose.getY();
+
+        final double maxDistance = 2.0;
+
+        final double normalizedY = Math.min(Math.abs(deltaY) / maxDistance, 1.0);
+        final double normalizedX = Math.min(Math.abs(deltaX) / maxDistance, 1.0);
+
+        Color leftColor = Color.kBlack;
+        Color rightColor = Color.kBlack;
+        Color frontColor = Color.kBlack;
+        Color backColor = Color.kBlack;
+
+        if (deltaX > 0) leftColor = interpolateColor(normalizedX);
+
+        if (deltaX < 0) rightColor = interpolateColor(normalizedX);
+
+        if (deltaY > 0) backColor = interpolateColor(normalizedY);
+
+        if (deltaY < 0) frontColor = interpolateColor(normalizedY);
+
+        buffer.setLED(0, leftColor);
+        buffer.setLED(46, leftColor);
+
+        buffer.setLED(23, rightColor);
+        buffer.setLED(24, rightColor);
+
+        buffer.setLED(11, frontColor);
+        buffer.setLED(12, frontColor);
+
+        buffer.setLED(34, backColor);
+        buffer.setLED(35, backColor);
+    }
+
+    private static Color interpolateColor(double distance) {
+        final int r = (int) (255 * distance);
+        final int g = (int) (255 * (1 - distance));
+
+        return new Color(r, g, 0);
+    }
+
+
     public Command setLEDStatus(LEDMode mode, double timeout) {
         return switch (mode) {
             case SHOOTER_LOADED -> getCommandFromColours(() -> generateFlashingBuffer(

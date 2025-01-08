@@ -9,6 +9,7 @@ import org.littletonrobotics.junction.LoggedRobot;
 
 import static frc.robot.RobotContainer.POSE_ESTIMATOR;
 import static frc.robot.poseestimation.photoncamera.CameraFactory.VISION_SIMULATION;
+import static frc.robot.subsystems.leds.Leds.correctRobotPositionFade;
 
 public class Robot extends LoggedRobot {
     private Command autonomousCommand;
@@ -38,6 +39,7 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void disabledPeriodic() {
+        correctRobotPositionFade(POSE_ESTIMATOR,new Translation2d(1,1));
     }
 
     @Override
