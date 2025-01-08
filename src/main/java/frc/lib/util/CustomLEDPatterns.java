@@ -49,7 +49,7 @@ public class CustomLEDPatterns {
     /**
      * Generates a buffer that indicates how far in each direction (left, right, forwards, backwards)
      * the robot is from the correct position. This should be called periodically to update the indicator.
-     * If a certain direction is perfect, it turns off that direction's LEDs.
+     * If a certain direction of the position is correct , it turns off that direction's LEDs.
      *
      * @param startColor The color when the robot is at the furthest position.
      * @param endColor   The color when the robot is at the closest position.
