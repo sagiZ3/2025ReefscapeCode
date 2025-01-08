@@ -34,15 +34,14 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void disabledInit() {
-
-    }
-
-    @Override
-    public void disabledPeriodic() {
         LEDS.setLEDToPositionIndicator(
                 POSE_ESTIMATOR.getCurrentPose().getTranslation(),
                 new Translation2d(2, 2),
                 10000).schedule();
+    }
+
+    @Override
+    public void disabledPeriodic() {
     }
 
     @Override
