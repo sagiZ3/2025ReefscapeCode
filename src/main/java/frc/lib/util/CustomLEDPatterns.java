@@ -63,8 +63,8 @@ public class CustomLEDPatterns {
         final double deltaX = robotPose.getX() - targetPose.getX();
         final double deltaY = robotPose.getY() - targetPose.getY();
 
-        final double normalizedY = Math.min(Math.abs(deltaY) / MAX_GREEN_RANGE, 1.0);
-        final double normalizedX = Math.min(Math.abs(deltaX) / MAX_GREEN_RANGE, 1.0);
+        final double normalizedY = Math.min(Math.abs(deltaY) / MAX_GREEN_RANGE_METERS, 1.0);
+        final double normalizedX = Math.min(Math.abs(deltaX) / MAX_GREEN_RANGE_METERS, 1.0);
 
         final Color8Bit leftColor = deltaX > 0 ? interpolateColors(startColor, endColor, normalizedX) : new Color8Bit(Color.kBlack);
         final Color8Bit rightColor = deltaX < 0 ? interpolateColors(startColor, endColor, normalizedX) : new Color8Bit(Color.kBlack);
