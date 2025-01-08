@@ -46,6 +46,17 @@ public class CustomLEDPatterns {
         return adjustedColours;
     }
 
+    /**
+     * Generates a buffer that indicates how far in each direction (left, right, forwards, backwards)
+     * the robot is from the correct position. This should be called periodically to update the indicator.
+     * If a certain direction is perfect, it turns off that direction's LEDs.
+     *
+     * @param startColor The color when the robot is at the furthest position.
+     * @param endColor   The color when the robot is at the closest position.
+     * @param robotPose  The current robot position.
+     * @param targetPose The target position.
+     * @return The filled buffer with corrective LED colors.
+     */
     public static Color8Bit[] generatePositionIndicatorBuffer(Color8Bit startColor, Color8Bit endColor, Translation2d robotPose, Translation2d targetPose) {
         final double deltaX = robotPose.getX() - targetPose.getX();
         final double deltaY = robotPose.getY() - targetPose.getY();
@@ -79,10 +90,10 @@ public class CustomLEDPatterns {
     }
 
     /**
-     * Generates a buffer with a single colour
+     * Generates a buffer with a single color.
      *
-     * @param colour - the colour
-     * @return - The filled buffer.
+     * @param color The color to fill the buffer.
+     * @return The filled buffer.
      */
     public static Color8Bit[] generateSingleColourBuffer(Color8Bit colour) {
         Arrays.fill(buffer, colour);
@@ -90,8 +101,11 @@ public class CustomLEDPatterns {
     }
 
     /**
-     * Set the buffer from the colour
-     * @param ledBuffer - the ledbuffer to set
+     * Set the buffer from the color.
+     *
+     * @param ledBuffer The LED buffer to set.
+     * @param buffer The color buffer.
+     * @return The updated LED buffer.
      */
     public static AddressableLEDBuffer getBufferFromColours(AddressableLEDBuffer ledBuffer, Color8Bit[] buffer) {
         for (int i = 0; i < buffer.length; i++) {
@@ -102,8 +116,8 @@ public class CustomLEDPatterns {
     }
 
     /**
-     * Fill the buffer with RAINBOW colours. This needs to be called periodically
-     * in order for the rainbow to not be static.
+     * Fill the buffer with RAINBOW colors. This needs to be called periodically for the rainbow effect
+     * to be dynamic.
      *
      * @return The filled buffer.
      */
@@ -124,11 +138,11 @@ public class CustomLEDPatterns {
 
 
     /**
-     * Set the buffer to any amount of colours and quickly iterate between them.
-     * This needs to be called periodic in order for the buffer to flash between colours.
+     * Set the buffer to flash between a set of colors. This needs to be called periodically for the
+     * flashing effect to work.
      *
-     * @param colours - The colours to switch between
-     * @return - The filled buffer
+     * @param colors The colors to switch between.
+     * @return The filled buffer.
      */
     public static Color8Bit[] generateFlashingBuffer(Color8Bit... colours) {
         if (counter % 25 == 0) //Make sure there's a delay between colour switching
@@ -141,13 +155,12 @@ public class CustomLEDPatterns {
     }
 
     /**
-     * Generates a loading animation with two moving directions.
-     * The animation moves from the center of the LED strip outwards in both directions.
-     * This should be called periodically to update the state of the animation.
+     * Generates a loading animation that moves outwards from the center of the LED strip.
+     * This should be called periodically to update the animation.
      *
-     * @param color1 - The colour for the first direction.
-     * @param color2 - The colour for the second direction.
-     * @return - The filled buffer.
+     * @param color1 The color for the first direction.
+     * @param color2 The color for the second direction.
+     * @return The filled buffer.
      */
     public static Color8Bit[] generateLoadingAnimationBuffer(Color8Bit color1, Color8Bit color2) {
         buffer = generateSingleColourBuffer(new Color8Bit(Color.kBlack)); // Clear the buffer
@@ -174,11 +187,11 @@ public class CustomLEDPatterns {
     }
 
     /**
-     * Slowly switch between two colours, creating a breathing effect
+     * Slowly switches between two colors, creating a breathing effect.
      *
-     * @param firstColour  - The first colour
-     * @param secondColour - The second colour
-     * @return - The filled buffer.
+     * @param firstColor  The first color.
+     * @param secondColor The second color.
+     * @return The filled buffer.
      */
     public static Color8Bit[] generateBreathingBuffer(Color8Bit firstColour, Color8Bit secondColour) {
         double x = timer.get();
@@ -187,9 +200,11 @@ public class CustomLEDPatterns {
 
 
     /**
-     * Circle N colours across the whole LEDStrip. Utilizes a smooth effect. Needs to be called periodic.
-     * @param colours - The colours
-     * @return - The filled buffer
+     * Circles through N colors across the LED strip, utilizing a smooth effect.
+     * This should be called periodically.
+     *
+     * @param colors The colors to cycle through.
+     * @return The filled buffer.
      */
     public static Color8Bit[] generateCirclingBuffer(Color8Bit... colours) {
         int colorsLength = colours.length;
@@ -226,10 +241,11 @@ public class CustomLEDPatterns {
 
 
     /**
-     * Clears the buffer, then moves a colour from the middle outwards.
+     * Clears the buffer, then moves a color from the middle outwards.
      * Creating a nice loading effect. Should be used periodically.
-     * @param colour - the colour to use
-     * @return - The current state of the buffer
+     *
+     * @param color The color to use
+     * @return The current state of the buffer
      */
     public static Color8Bit[] generateOutwardsPointsBuffer(Color8Bit colour) {
         buffer = generateSingleColourBuffer(new Color8Bit(Color.kBlack));
