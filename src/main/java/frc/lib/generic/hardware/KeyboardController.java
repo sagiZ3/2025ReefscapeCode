@@ -4,14 +4,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
 
 public class KeyboardController {
-    public KeyboardController() {
-        String[] keys = {
-                "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "zero", "minus", "equals",
-                "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m",
-                "numpad0", "numpad1", "numpad2", "numpad3", "numpad4", "numpad5", "numpad6", "numpad7", "numpad8", "numpad9"
-        };
-    }
-
     private Trigger createKeyTrigger(String key) {
         return new Trigger(new LoggedNetworkBoolean("/SmartDashboard/keyboard/" + key, false)::get);
     }
