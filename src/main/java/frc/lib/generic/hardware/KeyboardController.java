@@ -4,10 +4,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
 
 public class KeyboardController {
-    private Trigger createKeyTrigger(String key) {
-        return new Trigger(new LoggedNetworkBoolean("/SmartDashboard/keyboard/" + key, false)::get);
-    }
-
     public Trigger one() {
         return createKeyTrigger("1");
     }
@@ -190,5 +186,9 @@ public class KeyboardController {
 
     public Trigger numpad9() {
         return createKeyTrigger("numpad9");
+    }
+
+    private Trigger createKeyTrigger(String key) {
+        return new Trigger(new LoggedNetworkBoolean("/SmartDashboard/keyboard/" + key, false)::get);
     }
 }
