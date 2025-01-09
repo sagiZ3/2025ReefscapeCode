@@ -148,46 +148,6 @@ public class KeyboardController {
         return createKeyTrigger("m");
     }
 
-    public Trigger numpad0() {
-        return createKeyTrigger("numpad0");
-    }
-
-    public Trigger numpad1() {
-        return createKeyTrigger("numpad1");
-    }
-
-    public Trigger numpad2() {
-        return createKeyTrigger("numpad2");
-    }
-
-    public Trigger numpad3() {
-        return createKeyTrigger("numpad3");
-    }
-
-    public Trigger numpad4() {
-        return createKeyTrigger("numpad4");
-    }
-
-    public Trigger numpad5() {
-        return createKeyTrigger("numpad5");
-    }
-
-    public Trigger numpad6() {
-        return createKeyTrigger("numpad6");
-    }
-
-    public Trigger numpad7() {
-        return createKeyTrigger("numpad7");
-    }
-
-    public Trigger numpad8() {
-        return createKeyTrigger("numpad8");
-    }
-
-    public Trigger numpad9() {
-        return createKeyTrigger("numpad9");
-    }
-
     private Trigger createKeyTrigger(String key) {
         return new Trigger(new LoggedNetworkBoolean("/SmartDashboard/keyboard/" + key, false)::get);
     }
