@@ -6,10 +6,7 @@ def main():
     def on_action(event: keyboard.KeyboardEvent):
         if event.name == "/":
             return
-        if event.is_keypad:
-            table.putBoolean("numpad"+event.name, event.event_type == keyboard.KEY_DOWN)
-        else:
-            table.putBoolean(event.name.lower(), event.event_type == keyboard.KEY_DOWN)
+        table.putBoolean(event.name.lower(), event.event_type == keyboard.KEY_DOWN)
 
     ntcoreinst = ntcore.NetworkTableInstance.getDefault()
 
