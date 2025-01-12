@@ -20,6 +20,9 @@ import java.util.function.DoubleSupplier;
 import static frc.lib.util.Controller.Axis.LEFT_X;
 import static frc.lib.util.Controller.Axis.LEFT_Y;
 import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.FRONT_CAMERA;
+import static frc.robot.utilities.FieldLocations.BLUE_BOTTOM_FEEDER;
+import static frc.robot.utilities.FieldLocations.BLUE_TOP_FEEDER;
+import static frc.robot.utilities.PathPlannerConstants.PATHPLANNER_CONSTRAINTS;
 
 public class RobotContainer {
     public static final PoseEstimator5990 POSE_ESTIMATOR = new PoseEstimator5990(
@@ -49,6 +52,13 @@ public class RobotContainer {
         DriverStation.silenceJoystickConnectionWarning(true);
 
         setupLEDs();
+
+        driveController.getButton(Controller.Inputs.A).whileTrue(AutoBuilder.pathfindToPose(
+                BLUE_TOP_FEEDER.toPose2d(), PATHPLANNER_CONSTRAINTS));
+
+        driveController.getButton(Controller.Inputs.B).whileTrue(AutoBuilder.pathfindToPose(
+                BLUE_BOTTOM_FEEDER.toPose2d(), PATHPLANNER_CONSTRAINTS));
+
 
         configureButtons(ButtonLayout.TELEOP);
     }

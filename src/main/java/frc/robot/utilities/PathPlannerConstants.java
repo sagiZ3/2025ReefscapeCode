@@ -1,11 +1,11 @@
 package frc.robot.utilities;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.commands.PathfindingCommand;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import frc.lib.util.LocalADStarAK;
 import frc.lib.util.mirrorable.Mirrorable;
@@ -24,12 +24,18 @@ public class PathPlannerConstants {
             new PIDConstants(1, 0.0, 0.05)
     );
 
+    public static final PathConstraints PATHPLANNER_CONSTRAINTS = new PathConstraints(
+            ROBOT_CONFIG.moduleConfig.maxDriveVelocityMPS,
+            3,
+            ROBOT_CONFIG.moduleConfig.maxDriveVelocityRadPerSec,
+            3
+    );
+
     public static void initializePathPlanner() {
         Pathfinding.setPathfinder(new LocalADStarAK());
 
         configurePathPlanner();
 
-        FollowPathCommand.warmupCommand().schedule();
         PathfindingCommand.warmupCommand().schedule();
     }
 
