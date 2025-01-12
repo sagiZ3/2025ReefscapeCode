@@ -3,9 +3,6 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.commands.PathfindingCommand;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -13,9 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.generic.GenericSubsystem;
 import frc.lib.util.Controller;
-import frc.robot.poseestimation.objectdetection.DetectionCameraFactory;
-import frc.robot.poseestimation.objectdetection.DetectionCameraIO;
-import frc.robot.poseestimation.poseestimator.PoseEstimator;
+import frc.robot.poseestimation.poseestimator.PoseEstimator5990;
 import frc.robot.subsystems.leds.Leds;
 import frc.robot.subsystems.swerve.Swerve;
 import frc.robot.subsystems.swerve.SwerveCommands;
@@ -25,18 +20,12 @@ import java.util.function.DoubleSupplier;
 
 import static frc.lib.util.Controller.Axis.LEFT_X;
 import static frc.lib.util.Controller.Axis.LEFT_Y;
-import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.FRONT_CAMERA;
+import static frc.robot.commands.PathfindToFeeder.pathfinder;
 
 public class RobotContainer {
-    public static final PoseEstimator POSE_ESTIMATOR = new PoseEstimator(
-            FRONT_CAMERA
+    public static final PoseEstimator5990 POSE_ESTIMATOR = new PoseEstimator5990(
+//            FRONT_CAMERA
     );
-
-    public static final DetectionCameraIO DETECTION_CAMERA = DetectionCameraFactory.createDetectionCamera("NotesCamera",
-            new Transform3d(
-                    new Translation3d(0.3, 0.08, 0.31),
-                    new Rotation3d()
-    ));
 
     public static final Swerve SWERVE = new Swerve();
     public static final Leds LEDS = new Leds();
@@ -60,6 +49,14 @@ public class RobotContainer {
         DriverStation.silenceJoystickConnectionWarning(true);
 
         setupLEDs();
+
+        driveController.getButton(Controller.Inputs.A).whileTrue(
+                AutoBuilder.followPath(pathfinder()
+                ));
+
+        driveController.getButton(Controller.Inputs.B).whileTrue(
+                SWERVE.zoom()
+        );
 
         configureButtons(ButtonLayout.TELEOP);
     }

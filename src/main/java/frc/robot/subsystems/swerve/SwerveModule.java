@@ -34,6 +34,10 @@ public class SwerveModule {
                 getDriveMotorInputs().threadSystemPosition.length - 1];
     }
 
+    protected void setTargetVoltage(double voltage) {
+        driveMotor.setOutput(MotorProperties.ControlMode.VOLTAGE, voltage);
+    }
+
     protected void setTargetState(SwerveModuleState state) {
         this.targetState = Optimizations.optimize(state, getCurrentAngle());
 

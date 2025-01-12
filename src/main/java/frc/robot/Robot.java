@@ -1,13 +1,10 @@
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.generic.hardware.HardwareManager;
 import org.littletonrobotics.junction.LoggedRobot;
 
-import static frc.robot.RobotContainer.LEDS;
 import static frc.robot.RobotContainer.POSE_ESTIMATOR;
 import static frc.robot.poseestimation.photoncamera.CameraFactory.VISION_SIMULATION;
 
@@ -15,8 +12,6 @@ public class Robot extends LoggedRobot {
     private Command autonomousCommand;
     private final CommandScheduler commandScheduler = CommandScheduler.getInstance();
     private RobotContainer robotContainer;
-
-    private final Field2d simulatedVisionField = VISION_SIMULATION.getDebugField();
 
     @Override
     public void robotInit() {
@@ -34,10 +29,10 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void disabledInit() {
-        LEDS.setLEDToPositionIndicator(
-                POSE_ESTIMATOR.getCurrentPose().getTranslation(),
-                new Translation2d(2, 2),
-                10000).schedule();
+//        LEDS.setLEDToPositionIndicator(
+//                POSE_ESTIMATOR.getCurrentPose().getTranslation(),
+//                new Translation2d(2, 2),
+//                10000).schedule();
     }
 
     @Override
@@ -85,9 +80,7 @@ public class Robot extends LoggedRobot {
     @Override
     public void simulationPeriodic() {
         HardwareManager.updateSimulation();
-
         VISION_SIMULATION.updateRobotPose(POSE_ESTIMATOR.getOdometryPose());
-        simulatedVisionField.getObject("EstimatedRobot").setPose(POSE_ESTIMATOR.getCurrentPose());
     }
 
     @Override
