@@ -55,8 +55,6 @@ public class RobotContainer {
                 AutoBuilder.followPath(pathfinder()
                 ));
 
-
-
         configureButtons(ButtonLayout.TELEOP);
     }
 

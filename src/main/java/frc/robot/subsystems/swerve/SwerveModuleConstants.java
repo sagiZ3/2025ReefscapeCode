@@ -134,7 +134,7 @@ public class SwerveModuleConstants {
                 DCMotor.getFalcon500(1),
                 DRIVE_GEAR_RATIO,
                 0.003);
-        driveMotorConfiguration.simulationSlot = new MotorProperties.Slot(0.7, 0, 0, 0, 0, 0);
+        driveMotorConfiguration.simulationSlot = new MotorProperties.Slot(20, 0, 0, 0, 0, 0); //TODO: TUNE
     }
 
     private static void configureSteerConfiguration() {
