@@ -19,7 +19,6 @@ import java.util.function.DoubleSupplier;
 
 import static frc.lib.util.Controller.Axis.LEFT_X;
 import static frc.lib.util.Controller.Axis.LEFT_Y;
-import static frc.robot.commands.PathfindToFeeder.pathfinder;
 import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.FRONT_CAMERA;
 
 public class RobotContainer {
@@ -50,10 +49,6 @@ public class RobotContainer {
         DriverStation.silenceJoystickConnectionWarning(true);
 
         setupLEDs();
-
-        driveController.getButton(Controller.Inputs.A).whileTrue(
-                AutoBuilder.followPath(pathfinder()
-                ));
 
         configureButtons(ButtonLayout.TELEOP);
     }
