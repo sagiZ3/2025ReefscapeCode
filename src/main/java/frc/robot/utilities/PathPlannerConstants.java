@@ -20,15 +20,15 @@ public class PathPlannerConstants {
     public static final RobotConfig ROBOT_CONFIG = getRobotConfig();
 
     public static final PPHolonomicDriveController PATHPLANNER_PID_CONSTANTS = new PPHolonomicDriveController(
-            new PIDConstants(2, 0.0, 0.2),
-            new PIDConstants(1, 0.0, 0.05)
+            new PIDConstants(6, 0.0, 0),
+            new PIDConstants(3, 0.0, 0)
     );
 
     public static final PathConstraints PATHPLANNER_CONSTRAINTS = new PathConstraints(
             ROBOT_CONFIG.moduleConfig.maxDriveVelocityMPS,
             3,
             ROBOT_CONFIG.moduleConfig.maxDriveVelocityRadPerSec,
-            3
+            2
     );
 
     public static void initializePathPlanner() {

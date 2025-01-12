@@ -77,9 +77,7 @@ public class RobotContainer {
     }
 
     private enum ButtonLayout {
-        TELEOP,
-        CHARACTERIZE_FLYWHEEL,
-        CHARACTERIZE_ARM
+        TELEOP
     }
 
     private void setupLEDs() {
