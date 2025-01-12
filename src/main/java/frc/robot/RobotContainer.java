@@ -1,8 +1,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.FollowPathCommand;
-import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -11,10 +9,10 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.generic.GenericSubsystem;
 import frc.lib.util.Controller;
 import frc.robot.poseestimation.poseestimator.PoseEstimator5990;
-
 import frc.robot.subsystems.leds.Leds;
 import frc.robot.subsystems.swerve.Swerve;
 import frc.robot.subsystems.swerve.SwerveCommands;
+import frc.robot.utilities.PathPlannerConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import java.util.function.DoubleSupplier;
@@ -39,6 +37,7 @@ public class RobotContainer {
     private LoggedDashboardChooser<Command> autoChooser;
 
     public RobotContainer() {
+        PathPlannerConstants.initializePathPlanner();
         setupAutonomous();
         configureBindings();
     }
@@ -55,6 +54,8 @@ public class RobotContainer {
         driveController.getButton(Controller.Inputs.A).whileTrue(
                 AutoBuilder.followPath(pathfinder()
                 ));
+
+
 
         configureButtons(ButtonLayout.TELEOP);
     }
@@ -126,9 +127,6 @@ public class RobotContainer {
     }
 
     private void setupAutonomous() {
-        FollowPathCommand.warmupCommand().schedule();
-        PathfindingCommand.warmupCommand().schedule();
-
         autoChooser = new LoggedDashboardChooser<>("AutoChooser", AutoBuilder.buildAutoChooser(""));
     }
 }

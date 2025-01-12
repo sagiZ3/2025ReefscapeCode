@@ -7,23 +7,25 @@ import frc.lib.util.mirrorable.Mirrorable;
 
 import java.util.List;
 
+import static frc.robot.RobotContainer.POSE_ESTIMATOR;
+
 public class PathfindToFeeder {
     public static PathPlannerPath pathfinder() {
         Mirrorable.isRedAlliance();
 
         List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
-                new Pose2d(1.367, 1.367, Rotation2d.fromDegrees(-127.042)),
-                new Pose2d(3.740, 3.740, Rotation2d.fromDegrees(61.113))
+                POSE_ESTIMATOR.getCurrentPose(),
+                new Pose2d(1.367, 1.367, Rotation2d.fromDegrees(-127.042))
         );
 
-        PathConstraints constraints = new PathConstraints(10.0,
-                10.0, 2 * Math.PI, 10 * Math.PI);
+        PathConstraints constraints = new PathConstraints(5,
+                3, 2 * Math.PI, 2 * Math.PI);
 
         PathPlannerPath path = new PathPlannerPath(
                 waypoints,
                 constraints,
                 new IdealStartingState(0, Rotation2d.fromDegrees(-127.042)),
-                new GoalEndState(0.0, Rotation2d.fromDegrees(61.113))
+                new GoalEndState(0.0, Rotation2d.fromDegrees(-127.042))
         );
 
         path.preventFlipping = true;
