@@ -14,9 +14,8 @@ public class GlobalConstants {
     public static final boolean IS_TUNING_MODE = true;
 
     public static final double GRAVITY = 9.80665;
-    public static final double MINIMUM_ACCELERATION_FOR_COLLISION = 25;
 
-    public static final double FIELD_LENGTH_METRES = 14.56;
+    public static final double FIELD_LENGTH_METRES = 17.55;
 
     public static final double VOLTAGE_COMPENSATION_SATURATION = 12;
 

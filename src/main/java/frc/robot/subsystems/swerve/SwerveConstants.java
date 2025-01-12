@@ -30,8 +30,8 @@ public class SwerveConstants {
     public static RobotConfig PATHPLANNER_ROBOT_CONFIGURATION = null;
 
     protected static final PPHolonomicDriveController PATHPLANNER_PID_CONSTANTS = new PPHolonomicDriveController(
-                        new PIDConstants(5.0, 0.0, 0.0),
-                        new PIDConstants(5.0, 0.0, 0.0)
+                        new PIDConstants(7, 0.0, 0.0),
+                        new PIDConstants(2, 0.0, 0.0)
                 );
 
 

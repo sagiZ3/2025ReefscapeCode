@@ -37,15 +37,6 @@ public class Swerve extends GenericSubsystem {
             currentModule.stop();
     }
 
-    public Command zoom() {
-        return Commands.run(
-                () -> {
-                    for (SwerveModule currentModule : MODULES)
-                        currentModule.setTargetVoltage(12);
-                }
-        );
-    }
-
     public void setGyroHeading(Rotation2d heading) {
         GYRO.setGyroYaw(heading.getDegrees());
     }
