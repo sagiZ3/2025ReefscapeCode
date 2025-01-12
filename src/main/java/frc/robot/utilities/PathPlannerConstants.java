@@ -8,7 +8,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import frc.lib.util.LocalADStarAK;
-import frc.lib.util.mirrorable.Mirrorable;
+import frc.lib.util.flippable.Flippable;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class PathPlannerConstants {
                 SWERVE::driveRobotRelative,
                 PATHPLANNER_PID_CONSTANTS,
                 ROBOT_CONFIG,
-                Mirrorable::isRedAlliance,
+                Flippable::isRedAlliance,
                 SWERVE
         );
     }
