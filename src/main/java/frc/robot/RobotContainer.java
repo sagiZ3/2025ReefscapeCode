@@ -1,8 +1,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.FollowPathCommand;
-import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -10,19 +8,22 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.generic.GenericSubsystem;
 import frc.lib.util.Controller;
+import frc.lib.util.flippable.Flippable;
 import frc.robot.poseestimation.poseestimator.PoseEstimator5990;
-
 import frc.robot.subsystems.leds.Leds;
 import frc.robot.subsystems.swerve.Swerve;
 import frc.robot.subsystems.swerve.SwerveCommands;
+import frc.robot.utilities.PathPlannerConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import java.util.function.DoubleSupplier;
 
 import static frc.lib.util.Controller.Axis.LEFT_X;
 import static frc.lib.util.Controller.Axis.LEFT_Y;
-import static frc.robot.commands.PathfindToFeeder.pathfinder;
 import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.FRONT_CAMERA;
+import static frc.robot.utilities.FieldLocations.BLUE_BOTTOM_FEEDER;
+import static frc.robot.utilities.FieldLocations.BLUE_TOP_FEEDER;
+import static frc.robot.utilities.PathPlannerConstants.PATHPLANNER_CONSTRAINTS;
 
 public class RobotContainer {
     public static final PoseEstimator5990 POSE_ESTIMATOR = new PoseEstimator5990(
@@ -39,6 +40,9 @@ public class RobotContainer {
     private LoggedDashboardChooser<Command> autoChooser;
 
     public RobotContainer() {
+        Flippable.init();
+        PathPlannerConstants.initializePathPlanner();
+
         setupAutonomous();
         configureBindings();
     }
@@ -52,9 +56,12 @@ public class RobotContainer {
 
         setupLEDs();
 
-        driveController.getButton(Controller.Inputs.A).whileTrue(
-                AutoBuilder.followPath(pathfinder()
-                ));
+        driveController.getButton(Controller.Inputs.A).whileTrue(AutoBuilder.pathfindToPose(
+                BLUE_TOP_FEEDER.toPose2d(), PATHPLANNER_CONSTRAINTS));
+
+        driveController.getButton(Controller.Inputs.B).whileTrue(AutoBuilder.pathfindToPose(
+                BLUE_BOTTOM_FEEDER.toPose2d(), PATHPLANNER_CONSTRAINTS));
+
 
         configureButtons(ButtonLayout.TELEOP);
     }
@@ -73,9 +80,7 @@ public class RobotContainer {
     }
 
     private enum ButtonLayout {
-        TELEOP,
-        CHARACTERIZE_FLYWHEEL,
-        CHARACTERIZE_ARM
+        TELEOP
     }
 
     private void setupLEDs() {
@@ -126,9 +131,6 @@ public class RobotContainer {
     }
 
     private void setupAutonomous() {
-        FollowPathCommand.warmupCommand().schedule();
-        PathfindingCommand.warmupCommand().schedule();
-
         autoChooser = new LoggedDashboardChooser<>("AutoChooser", AutoBuilder.buildAutoChooser(""));
     }
 }

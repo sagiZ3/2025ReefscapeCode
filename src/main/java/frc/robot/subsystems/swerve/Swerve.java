@@ -1,6 +1,5 @@
 package frc.robot.subsystems.swerve;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -9,13 +8,9 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.generic.GenericSubsystem;
 import frc.lib.generic.OdometryThread;
-import frc.lib.math.AdvancedSwerveKinematics;
 import frc.lib.math.Optimizations;
-import frc.lib.util.mirrorable.Mirrorable;
 import frc.robot.RobotContainer;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -24,25 +19,17 @@ import static frc.lib.math.MathUtils.getAngleFromPoseToPose;
 import static frc.robot.RobotContainer.POSE_ESTIMATOR;
 import static frc.robot.subsystems.swerve.SwerveConstants.*;
 import static frc.robot.subsystems.swerve.SwerveModuleConstants.MODULES;
+import static frc.robot.utilities.PathPlannerConstants.ROBOT_CONFIG;
 
 public class Swerve extends GenericSubsystem {
     private double lastTimestamp = Timer.getFPGATimestamp();
-
-    public Swerve() {
-        configurePathPlanner();
-    }
-
-    public void stop() {
-        for (SwerveModule currentModule : MODULES)
-            currentModule.stop();
-    }
 
     public void setGyroHeading(Rotation2d heading) {
         GYRO.setGyroYaw(heading.getDegrees());
     }
 
     public ChassisSpeeds getRobotRelativeVelocity() {
-        return SWERVE_KINEMATICS.toChassisSpeeds(getModuleStates());
+        return ROBOT_CONFIG.toChassisSpeeds(getModuleStates());
     }
 
     @Override
@@ -65,6 +52,22 @@ public class Swerve extends GenericSubsystem {
                         gyroRotations,
                         OdometryThread.getInstance().getLatestTimestamps()
                 );
+    }
+
+    public void driveRobotRelative(ChassisSpeeds chassisSpeeds) {
+        chassisSpeeds = discretize(chassisSpeeds);
+
+        if (Optimizations.isStill(chassisSpeeds)) {
+            stop();
+            return;
+        }
+
+        final SwerveModuleState[] swerveModuleStates = SWERVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, ROBOT_CONFIG.moduleConfig.maxDriveVelocityMPS);
+
+        for (int i = 0; i < MODULES.length; i++)
+            MODULES[i].setTargetState(swerveModuleStates[i]);
     }
 
     protected void driveOrientationBased(double xPower, double yPower, double thetaPower, boolean robotCentric) {
@@ -123,23 +126,6 @@ public class Swerve extends GenericSubsystem {
         driveRobotRelative(speeds);
     }
 
-    protected void driveRobotRelative(ChassisSpeeds chassisSpeeds) {
-        chassisSpeeds = discretize(chassisSpeeds);
-        chassisSpeeds = AdvancedSwerveKinematics.correctForDynamics(chassisSpeeds);
-
-        if (Optimizations.isStill(chassisSpeeds)) {
-            stop();
-            return;
-        }
-
-        final SwerveModuleState[] swerveModuleStates = SWERVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
-
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, MAX_SPEED_MPS);
-
-        for (int i = 0; i < MODULES.length; i++)
-            MODULES[i].setTargetState(swerveModuleStates[i]);
-    }
-
     protected void initializeDrive(boolean openLoop) {
         for (SwerveModule currentModule : MODULES)
             currentModule.setOpenLoop(openLoop);
@@ -157,23 +143,10 @@ public class Swerve extends GenericSubsystem {
         return swerveModulePositions;
     }
 
-    protected void configurePathPlanner() {
-        AutoBuilder.configure(
-                POSE_ESTIMATOR::getCurrentPose,
-                POSE_ESTIMATOR::resetPose,
-                this::getRobotRelativeVelocity,
-                (speeds, feedforwards) -> driveRobotRelative(speeds),
-                PATHPLANNER_PID_CONSTANTS,
-                PATHPLANNER_ROBOT_CONFIGURATION,
-                Mirrorable::isRedAlliance,
-                this
-        );
-    }
-
     protected ChassisSpeeds proportionalSpeedToMps(ChassisSpeeds chassisSpeeds) {
         return new ChassisSpeeds(
-                proportionalPowerToMps(chassisSpeeds.vxMetersPerSecond, MAX_SPEED_MPS),
-                proportionalPowerToMps(chassisSpeeds.vyMetersPerSecond, MAX_SPEED_MPS),
+                proportionalPowerToMps(chassisSpeeds.vxMetersPerSecond, ROBOT_CONFIG.moduleConfig.maxDriveVelocityMPS),
+                proportionalPowerToMps(chassisSpeeds.vyMetersPerSecond, ROBOT_CONFIG.moduleConfig.maxDriveVelocityMPS),
                 chassisSpeeds.omegaRadiansPerSecond
         );
     }
@@ -197,6 +170,11 @@ public class Swerve extends GenericSubsystem {
             states[i] = MODULES[i].getTargetState();
 
         return states;
+    }
+
+    protected void stop() {
+        for (SwerveModule currentModule : MODULES)
+            currentModule.stop();
     }
 
     protected ChassisSpeeds discretize(ChassisSpeeds chassisSpeeds) {
