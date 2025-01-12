@@ -11,8 +11,6 @@ public class GlobalConstants {
     public static final Lock FASTER_THREAD_LOCK = new ReentrantLock();
     public static final double ODOMETRY_FREQUENCY_HERTZ = 200.0;
 
-    public static final boolean IS_TUNING_MODE = true;
-
     public static final double GRAVITY = 9.80665;
 
     public static final double FIELD_LENGTH_METRES = 17.55;
