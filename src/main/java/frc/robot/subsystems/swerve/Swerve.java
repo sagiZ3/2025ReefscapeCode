@@ -9,6 +9,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.generic.GenericSubsystem;
 import frc.lib.generic.OdometryThread;
 import frc.lib.math.AdvancedSwerveKinematics;
@@ -50,7 +52,7 @@ public class Swerve extends GenericSubsystem {
 
         if (OdometryThread.getInstance().getLatestTimestamps().length == 0) return;
 
-        final SwerveWheelPositions[] swerveWheelPositions = new SwerveWheelPositions[odometryUpdates];
+        final SwerveModulePosition[][] swerveWheelPositions = new SwerveModulePosition[odometryUpdates][];
         final Rotation2d[] gyroRotations = new Rotation2d[odometryUpdates];
 
         for (int i = 0; i < odometryUpdates; i++) {
@@ -58,7 +60,7 @@ public class Swerve extends GenericSubsystem {
             gyroRotations[i] = Rotation2d.fromDegrees(odometryUpdatesYawDegrees[i]);
         }
 
-        POSE_ESTIMATOR.addOdometryObservations(
+        POSE_ESTIMATOR.updatePoseEstimatorStates(
                         swerveWheelPositions,
                         gyroRotations,
                         OdometryThread.getInstance().getLatestTimestamps()
@@ -96,10 +98,12 @@ public class Swerve extends GenericSubsystem {
                         currentPose.getX(),
                         target.getX()
                 ),
+
                 SWERVE_TRANSLATION_CONTROLLER.calculate(
                         currentPose.getY(),
                         target.getY()
                 ),
+
                 SWERVE_ROTATION_CONTROLLER.calculate(
                         currentPose.getRotation().getDegrees(),
                         target.getRotation().getDegrees()
@@ -143,15 +147,14 @@ public class Swerve extends GenericSubsystem {
         SWERVE_ROTATION_CONTROLLER.reset(POSE_ESTIMATOR.getCurrentPose().getRotation().getDegrees());
     }
 
-    protected SwerveWheelPositions getSwerveWheelPositions(int odometryUpdateIndex) {
+    protected SwerveModulePosition[] getSwerveWheelPositions(int odometryUpdateIndex) {
         final SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[MODULES.length];
 
         for (int i = 0; i < MODULES.length; i++) {
             swerveModulePositions[i] = MODULES[i].getOdometryPosition(odometryUpdateIndex);
-            if (swerveModulePositions[i] == null) return null;
         }
 
-        return new SwerveWheelPositions(swerveModulePositions);
+        return swerveModulePositions;
     }
 
     protected void configurePathPlanner() {

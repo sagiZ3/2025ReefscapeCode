@@ -5,7 +5,6 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import org.photonvision.PhotonCamera;
 import org.photonvision.simulation.PhotonCameraSim;
 import org.photonvision.simulation.SimCameraProperties;
@@ -18,14 +17,6 @@ public class VisionSimulation {
     public VisionSimulation() {
         visionSystemSim.addAprilTags(AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField));
         setupCameraProperties();
-    }
-
-    /**
-     * The field where the simulated camera will be drawn.
-     * @return field2d
-     */
-    public Field2d getDebugField() {
-        return visionSystemSim.getDebugField();
     }
 
     public void addCamera(PhotonCamera camera, Transform3d robotCenterToCamera) {

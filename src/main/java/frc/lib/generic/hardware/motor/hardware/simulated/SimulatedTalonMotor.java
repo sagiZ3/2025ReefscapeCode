@@ -113,7 +113,10 @@ public class SimulatedTalonMotor extends Motor {
 
         talonConfig.ClosedLoopGeneral.ContinuousWrap = configuration.closedLoopContinuousWrap;
 
-        return applyConfig();
+        talonConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+        talonConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+
+        return talonConfigurator.apply(talonConfig) == StatusCode.OK;
     }
 
     private void configureMotionMagic() {
@@ -140,18 +143,6 @@ public class SimulatedTalonMotor extends Motor {
 
         if (currentConfiguration.simulationSlot.gravityType() != null)
             talonConfig.Slot0.GravityType = currentConfiguration.simulationSlot.gravityType() == ARM ? GravityTypeValue.Arm_Cosine : GravityTypeValue.Elevator_Static;
-    }
-
-    private boolean applyConfig() {
-        int counter = 10;
-        StatusCode statusCode = null;
-
-        while (statusCode != StatusCode.OK && counter > 0) {
-            statusCode = talonConfigurator.apply(talonConfig);
-            counter--;
-        }
-
-        return statusCode == StatusCode.OK;
     }
 
     @Override
