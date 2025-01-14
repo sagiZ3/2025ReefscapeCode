@@ -21,10 +21,8 @@ import java.util.function.DoubleSupplier;
 
 import static frc.lib.util.Controller.Axis.LEFT_X;
 import static frc.lib.util.Controller.Axis.LEFT_Y;
+import static frc.robot.commands.goToClosestFeeder.findClosestFeeder;
 import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.FRONT_CAMERA;
-import static frc.robot.utilities.FieldLocations.BLUE_BOTTOM_FEEDER;
-import static frc.robot.utilities.FieldLocations.BLUE_TOP_FEEDER;
-import static frc.robot.utilities.PathPlannerConstants.PATHPLANNER_CONSTRAINTS;
 
 public class RobotContainer {
     public static final PoseEstimator5990 POSE_ESTIMATOR = new PoseEstimator5990(
@@ -57,12 +55,7 @@ public class RobotContainer {
 
         setupLEDs();
 
-        driveController.getButton(Controller.Inputs.A).whileTrue(AutoBuilder.pathfindToPose(
-                BLUE_TOP_FEEDER.toPose2d(), PATHPLANNER_CONSTRAINTS));
-
-        driveController.getButton(Controller.Inputs.B).whileTrue(AutoBuilder.pathfindToPose(
-                BLUE_BOTTOM_FEEDER.toPose2d(), PATHPLANNER_CONSTRAINTS));
-
+        findClosestFeeder(driveController.getButton(Controller.Inputs.A));
 
         configureButtons(ButtonLayout.TELEOP);
     }
@@ -78,10 +71,6 @@ public class RobotContainer {
         driveController.getButton(Controller.Inputs.B).whileTrue(subsystem.getSysIdQuastatic(SysIdRoutine.Direction.kReverse));
         driveController.getButton(Controller.Inputs.Y).whileTrue(subsystem.getSysIdDynamic(SysIdRoutine.Direction.kForward));
         driveController.getButton(Controller.Inputs.X).whileTrue(subsystem.getSysIdDynamic(SysIdRoutine.Direction.kReverse));
-    }
-
-    private enum ButtonLayout {
-        TELEOP
     }
 
     private void setupLEDs() {
@@ -133,5 +122,9 @@ public class RobotContainer {
 
     private void setupAutonomous() {
         autoChooser = new LoggedDashboardChooser<>("AutoChooser", AutoBuilder.buildAutoChooser(""));
+    }
+
+    private enum ButtonLayout {
+        TELEOP
     }
 }
