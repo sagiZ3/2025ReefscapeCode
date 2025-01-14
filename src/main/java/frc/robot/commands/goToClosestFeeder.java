@@ -14,7 +14,7 @@ public class goToClosestFeeder {
         Trigger closetFeeder = new Trigger(() -> POSE_ESTIMATOR.getCurrentPose().getY() - 4 < 0);
 
         // flips around both axis instead of only the y
-        button.and(closetFeeder).whileTrue(AutoBuilder.pathfindToPose(new FlippablePose2d(BLUE_BOTTOM_FEEDER.toPose2d(),true).get(), PATHPLANNER_CONSTRAINTS));
-        button.and(closetFeeder.negate()).whileTrue(AutoBuilder.pathfindToPose(new FlippablePose2d(BLUE_TOP_FEEDER.toPose2d(),true).get(), PATHPLANNER_CONSTRAINTS));
+        button.and(closetFeeder).whileTrue(AutoBuilder.pathfindToPose(new FlippablePose2d(BLUE_BOTTOM_FEEDER.toPose2d(), true).get(), PATHPLANNER_CONSTRAINTS));
+        button.and(closetFeeder.negate()).whileTrue(AutoBuilder.pathfindToPose(new FlippablePose2d(BLUE_TOP_FEEDER.toPose2d(), true).get(), PATHPLANNER_CONSTRAINTS));
     }
 }
