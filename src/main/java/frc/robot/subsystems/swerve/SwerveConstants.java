@@ -10,6 +10,7 @@ import frc.lib.generic.hardware.pigeon.PigeonFactory;
 import frc.lib.generic.hardware.pigeon.PigeonSignal;
 
 import static frc.robot.utilities.PathPlannerConstants.ROBOT_CONFIG;
+import static frc.robot.utilities.PortsConstants.SwervePorts.GYRO_PORT;
 
 public class SwerveConstants {
     public static final double DRIVE_GEAR_RATIO = (6.75);
@@ -31,7 +32,7 @@ public class SwerveConstants {
             new TrapezoidProfile.Constraints(360, 360)
     );
 
-    static final Pigeon GYRO = PigeonFactory.createIMU("GYRO", 30);
+    static final Pigeon GYRO = PigeonFactory.createIMU("GYRO", GYRO_PORT);
 
     static {
         configureGyro();
