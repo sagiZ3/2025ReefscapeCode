@@ -21,7 +21,7 @@ import java.util.function.DoubleSupplier;
 
 import static frc.lib.util.Controller.Axis.LEFT_X;
 import static frc.lib.util.Controller.Axis.LEFT_Y;
-import static frc.robot.commands.goToClosestFeeder.findClosestFeeder;
+import static frc.robot.commands.feederPathfinding.goToClosestFeeder;
 import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.FRONT_CAMERA;
 
 public class RobotContainer {
@@ -55,7 +55,7 @@ public class RobotContainer {
 
         setupLEDs();
 
-        findClosestFeeder(driveController.getButton(Controller.Inputs.A));
+        goToClosestFeeder(driveController.getButton(Controller.Inputs.A));
 
         configureButtons(ButtonLayout.TELEOP);
     }
