@@ -46,7 +46,6 @@ public class SwerveCommands {
                 1,1));
     }
 
-
     public static Command goToPoseWithPID(Pose2d targetPose) {
         final Pose2d fixedTargetPose = new Pose2d(targetPose.getTranslation(), Rotation2d.fromDegrees(MathUtil.inputModulus(targetPose.getRotation().getDegrees(), -180, 180)));
 
