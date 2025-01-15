@@ -12,7 +12,7 @@ import static frc.robot.utilities.PathPlannerConstants.PATHPLANNER_CONSTRAINTS;
 
 public class feederPathfinding {
     public static void goToClosestFeeder(Trigger button) {
-        Trigger closetFeeder = new Trigger(() -> POSE_ESTIMATOR.getCurrentPose().getY() - 4 > 0);
+        final Trigger closetFeeder = new Trigger(() -> POSE_ESTIMATOR.getCurrentPose().getY() - 4 > 0);
 
         try {
             button.and(closetFeeder).whileTrue(AutoBuilder.pathfindThenFollowPath(PathPlannerPath.fromPathFile("nextToTopFeeder").mirrorPath(), PATHPLANNER_CONSTRAINTS));
