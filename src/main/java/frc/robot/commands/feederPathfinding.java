@@ -17,6 +17,5 @@ public class feederPathfinding {
 
         button.and(closetFeeder).and(isRed.negate()).whileTrue(AutoBuilder.pathfindThenFollowPath(ALIGN_TO_TOP_FEEDER, PATHPLANNER_CONSTRAINTS));
         button.and(closetFeeder.negate()).and(isRed.negate()).whileTrue(AutoBuilder.pathfindThenFollowPath(ALIGN_TO_BOTTOM_FEEDER, PATHPLANNER_CONSTRAINTS));
-
     }
 }
