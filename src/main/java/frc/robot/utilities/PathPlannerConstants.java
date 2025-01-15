@@ -26,11 +26,6 @@ public class PathPlannerConstants {
     static {
         try {
             ALIGN_TO_TOP_FEEDER = PathPlannerPath.fromPathFile("nextToTopFeeder");
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
-
-        try {
             ALIGN_TO_BOTTOM_FEEDER = PathPlannerPath.fromPathFile("nextToBottomFeeder");
         } catch (IOException | ParseException e) {
             e.printStackTrace();
