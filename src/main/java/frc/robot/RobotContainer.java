@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -100,8 +99,8 @@ public class RobotContainer {
     }
 
     private void configureButtonsTeleop() {
-        DoubleSupplier translationSupplier = () -> MathUtil.applyDeadband(-driveController.getRawAxis(LEFT_Y), 0.05);
-        DoubleSupplier strafeSupplier = () -> MathUtil.applyDeadband(-driveController.getRawAxis(LEFT_X), 0.05);
+        DoubleSupplier translationSupplier = () -> -driveController.getRawAxis(LEFT_Y);
+        DoubleSupplier strafeSupplier = () -> -driveController.getRawAxis(LEFT_X);
 
         setupDriving(translationSupplier, strafeSupplier);
 
