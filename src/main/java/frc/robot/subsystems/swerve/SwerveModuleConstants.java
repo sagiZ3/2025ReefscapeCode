@@ -9,6 +9,18 @@ import frc.lib.generic.simulation.SimulationProperties;
 import static frc.lib.generic.hardware.motor.MotorSignal.*;
 import static frc.robot.subsystems.swerve.SwerveConstants.DRIVE_GEAR_RATIO;
 import static frc.robot.subsystems.swerve.SwerveConstants.STEER_GEAR_RATIO;
+import static frc.robot.utilities.PortsConstants.SwervePorts.FL_DRIVE_MOTOR_PORT;
+import static frc.robot.utilities.PortsConstants.SwervePorts.FL_STEER_ENCODER_PORT;
+import static frc.robot.utilities.PortsConstants.SwervePorts.FL_STEER_MOTOR_PORT;
+import static frc.robot.utilities.PortsConstants.SwervePorts.FR_DRIVE_MOTOR_PORT;
+import static frc.robot.utilities.PortsConstants.SwervePorts.FR_STEER_ENCODER_PORT;
+import static frc.robot.utilities.PortsConstants.SwervePorts.FR_STEER_MOTOR_PORT;
+import static frc.robot.utilities.PortsConstants.SwervePorts.RL_DRIVE_MOTOR_PORT;
+import static frc.robot.utilities.PortsConstants.SwervePorts.RL_STEER_ENCODER_PORT;
+import static frc.robot.utilities.PortsConstants.SwervePorts.RL_STEER_MOTOR_PORT;
+import static frc.robot.utilities.PortsConstants.SwervePorts.RR_DRIVE_MOTOR_PORT;
+import static frc.robot.utilities.PortsConstants.SwervePorts.RR_STEER_ENCODER_PORT;
+import static frc.robot.utilities.PortsConstants.SwervePorts.RR_STEER_MOTOR_PORT;
 
 public class SwerveModuleConstants {
     static final MotorConfiguration steerMotorConfiguration = new MotorConfiguration();
@@ -35,22 +47,22 @@ public class SwerveModuleConstants {
             0.27053);
 
     protected static final Motor
-            FL_STEER_MOTOR = MotorFactory.createSpark("FL_STEER_MOTOR", 11, MotorProperties.SparkType.MAX),
-            FR_STEER_MOTOR = MotorFactory.createSpark("FR_STEER_MOTOR", 10, MotorProperties.SparkType.MAX),
-            RL_STEER_MOTOR = MotorFactory.createSpark("RL_STEER_MOTOR", 6, MotorProperties.SparkType.MAX),
-            RR_STEER_MOTOR = MotorFactory.createSpark("RR_STEER_MOTOR", 9, MotorProperties.SparkType.MAX);
+            FL_STEER_MOTOR = MotorFactory.createSpark("FL_STEER_MOTOR", FL_STEER_MOTOR_PORT, MotorProperties.SparkType.MAX),
+            FR_STEER_MOTOR = MotorFactory.createSpark("FR_STEER_MOTOR", FR_STEER_MOTOR_PORT, MotorProperties.SparkType.MAX),
+            RL_STEER_MOTOR = MotorFactory.createSpark("RL_STEER_MOTOR", RL_STEER_MOTOR_PORT, MotorProperties.SparkType.MAX),
+            RR_STEER_MOTOR = MotorFactory.createSpark("RR_STEER_MOTOR", RR_STEER_MOTOR_PORT, MotorProperties.SparkType.MAX);
 
     protected static final Motor
-            FL_DRIVE_MOTOR = MotorFactory.createTalonFX("FL_DRIVE_MOTOR", 14),
-            FR_DRIVE_MOTOR = MotorFactory.createTalonFX("FR_DRIVE_MOTOR", 3),
-            RL_DRIVE_MOTOR = MotorFactory.createTalonFX("RL_DRIVE_MOTOR", 13),
-            RR_DRIVE_MOTOR = MotorFactory.createTalonFX("RR_DRIVE_MOTOR", 2);
+            FL_DRIVE_MOTOR = MotorFactory.createTalonFX("FL_DRIVE_MOTOR", FL_DRIVE_MOTOR_PORT),
+            FR_DRIVE_MOTOR = MotorFactory.createTalonFX("FR_DRIVE_MOTOR", FR_DRIVE_MOTOR_PORT),
+            RL_DRIVE_MOTOR = MotorFactory.createTalonFX("RL_DRIVE_MOTOR", RL_DRIVE_MOTOR_PORT),
+            RR_DRIVE_MOTOR = MotorFactory.createTalonFX("RR_DRIVE_MOTOR", RR_DRIVE_MOTOR_PORT);
 
     protected static final Encoder
-            FL_STEER_ENCODER = EncoderFactory.createCanCoder("FL_STEER_ENCODER", 18),
-            FR_STEER_ENCODER = EncoderFactory.createCanCoder("FR_STEER_ENCODER", 20),
-            RL_STEER_ENCODER = EncoderFactory.createCanCoder("RL_STEER_ENCODER", 19),
-            RR_STEER_ENCODER = EncoderFactory.createCanCoder("RR_STEER_ENCODER", 21);
+            FL_STEER_ENCODER = EncoderFactory.createCanCoder("FL_STEER_ENCODER", FL_STEER_ENCODER_PORT),
+            FR_STEER_ENCODER = EncoderFactory.createCanCoder("FR_STEER_ENCODER", FR_STEER_ENCODER_PORT),
+            RL_STEER_ENCODER = EncoderFactory.createCanCoder("RL_STEER_ENCODER", RL_STEER_ENCODER_PORT),
+            RR_STEER_ENCODER = EncoderFactory.createCanCoder("RR_STEER_ENCODER", RR_STEER_ENCODER_PORT);
 
     static final double[] STEER_ENCODER_OFFSET = {0.677246, 0.282715, 0.533447, 0.313721};
 
