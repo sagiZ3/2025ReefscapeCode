@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import static frc.lib.util.flippable.Flippable.isRed;
 import static frc.robot.RobotContainer.POSE_ESTIMATOR;
-import static frc.robot.utilities.FieldLocations.FIELD_WIDTH;
+import static frc.robot.utilities.FieldConstants.FIELD_WIDTH;
 import static frc.robot.utilities.PathPlannerConstants.*;
 
 public class feederPathfinding {
