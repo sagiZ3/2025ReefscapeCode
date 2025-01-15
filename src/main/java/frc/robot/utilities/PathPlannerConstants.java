@@ -6,6 +6,7 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import frc.lib.util.LocalADStarAK;
 import frc.lib.util.flippable.Flippable;
@@ -18,6 +19,23 @@ import static frc.robot.RobotContainer.SWERVE;
 
 public class PathPlannerConstants {
     public static final RobotConfig ROBOT_CONFIG = getRobotConfig();
+
+    public static PathPlannerPath ALIGN_TO_TOP_FEEDER;
+    public static PathPlannerPath ALIGN_TO_BOTTOM_FEEDER;
+
+    static {
+        try {
+            ALIGN_TO_TOP_FEEDER = PathPlannerPath.fromPathFile("nextToTopFeeder");
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            ALIGN_TO_BOTTOM_FEEDER = PathPlannerPath.fromPathFile("nextToBottomFeeder");
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static final PPHolonomicDriveController PATHPLANNER_PID_CONSTANTS = new PPHolonomicDriveController(
             new PIDConstants(6, 0.0, 0),
