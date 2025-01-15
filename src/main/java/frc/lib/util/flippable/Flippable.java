@@ -23,6 +23,8 @@ public abstract class Flippable<T> {
 
     protected final boolean shouldFlipWhenRedAlliance;
 
+    public static final Trigger isRed = new Trigger(Flippable::isRedAlliance);
+
     /**
      * Initializes the Flippable class. This should be called once in RobotContainer.
      */
