@@ -5,20 +5,37 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import frc.robot.GlobalConstants;
 import org.photonvision.PhotonCamera;
 import org.photonvision.simulation.PhotonCameraSim;
 import org.photonvision.simulation.SimCameraProperties;
 import org.photonvision.simulation.VisionSystemSim;
 
-public class VisionSimulation {
-    private final VisionSystemSim visionSystemSim = new VisionSystemSim("main");
-    private final SimCameraProperties properties = new SimCameraProperties();
+import static frc.robot.GlobalConstants.CURRENT_MODE;
 
-    public VisionSimulation() {
+public class VisionSimulation {
+    private VisionSystemSim visionSystemSim;
+    private SimCameraProperties properties;
+
+    /**
+     * Won't do anything if not in SIM
+     */
+    public void initializeVisionSimulation() {
+        if (GlobalConstants.Mode.REAL == CURRENT_MODE)
+            return;
+
+        visionSystemSim = new VisionSystemSim("main");
+        properties = new SimCameraProperties();
+
         visionSystemSim.addAprilTags(AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField));
         setupCameraProperties();
     }
 
+    /**
+     * Throws an exception if the mode is not SIM
+     * @param camera The camera to add
+     * @param robotCenterToCamera The transform from the robot center to the camera
+     */
     public void addCamera(PhotonCamera camera, Transform3d robotCenterToCamera) {
         final PhotonCameraSim simulatedCamera = new PhotonCameraSim(camera, properties);
 
@@ -27,6 +44,10 @@ public class VisionSimulation {
         simulatedCamera.enableDrawWireframe(true);
     }
 
+    /**
+     * Throws an exception if the mode is not SIM
+     * @param pose The pose to update the VisionSym field with.
+     */
     public void updateRobotPose(Pose2d pose) {
         visionSystemSim.update(pose);
     }

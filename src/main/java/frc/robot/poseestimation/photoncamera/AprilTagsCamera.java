@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static frc.robot.GlobalConstants.CURRENT_MODE;
-import static frc.robot.poseestimation.photoncamera.CameraFactory.VISION_SIMULATION;
+import static frc.robot.poseestimation.photoncamera.VisionConstants.VISION_SIMULATION;
 import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.*;
 
 public class AprilTagsCamera extends PhotonCameraIO {
@@ -44,13 +44,19 @@ public class AprilTagsCamera extends PhotonCameraIO {
             inputs.lastResultTimestamp = latestResult.getTimestampSeconds();
 
             inputs.averageDistanceFromTags = getAverageDistanceFromTags(latestResult);
-            inputs.visibleTagIDs = getVisibileTagIDs(latestResult);
+            inputs.visibleTagIDs = getVisibleTagIDs(latestResult);
         } else {
             updateWithNoResult(inputs);
         }
     }
 
-    private int[] getVisibileTagIDs(PhotonPipelineResult result) {
+    private void updateWithNoResult(CameraInputsAutoLogged inputs) {
+        inputs.hasResult = false;
+        inputs.visibleTagIDs = new int[0];
+        inputs.estimatedRobotPose = new Pose3d();
+    }
+
+    private int[] getVisibleTagIDs(PhotonPipelineResult result) {
         final List<PhotonTrackedTarget> targets = result.targets;
         final int[] visibleTagIDs = new int[targets.size()];
 
@@ -59,12 +65,6 @@ public class AprilTagsCamera extends PhotonCameraIO {
         }
 
         return visibleTagIDs;
-    }
-
-    private void updateWithNoResult(CameraInputsAutoLogged inputs) {
-        inputs.hasResult = false;
-        inputs.visibleTagIDs = new int[0];
-        inputs.estimatedRobotPose = new Pose3d();
     }
 
     private PhotonPipelineResult getLatestResult() {
@@ -86,8 +86,7 @@ public class AprilTagsCamera extends PhotonCameraIO {
         final Pose3d tagPose = TAG_ID_TO_POSE.get(bestTarget.getFiducialId());
         final Transform3d targetToCamera = bestTarget.getBestCameraToTarget().inverse();
 
-        return tagPose.transformBy(targetToCamera)
-                .transformBy(robotCenterToCamera.inverse());
+        return tagPose.transformBy(targetToCamera).transformBy(robotCenterToCamera.inverse());
     }
 
     private double getAverageDistanceFromTags(PhotonPipelineResult result) {
