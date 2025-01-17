@@ -9,7 +9,7 @@ import static frc.robot.subsystems.coralIntake.CoralIntakeConstants.*;
 
 public class CoralIntake extends GenericSubsystem {
     public Command prepareGamePiece() {
-        return Commands.run(() -> setVoltage(4), this).until(() -> BEAM_BREAK.get() == 1).andThen(stop());
+        return Commands.run(() -> setVoltage(4), this).until(() -> BEAM_BREAK_SENSOR.get() == 1).andThen(stop());
     }
 
     public Command releaseGamePiece() {

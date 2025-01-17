@@ -13,15 +13,15 @@ import static frc.robot.utilities.PortsConstants.IntakePorts.INTAKE_MOTOR_PORT;
 
 public class CoralIntakeConstants {
     protected static final Motor INTAKE_MOTOR = MotorFactory.createTalonFX("INTAKE_MOTOR", INTAKE_MOTOR_PORT);
-    protected static final Sensor BEAM_BREAK = SensorFactory.createDigitalInput("BEAM_BREAK", BEAM_BREAK_PORT);
+    protected static final Sensor BEAM_BREAK_SENSOR = SensorFactory.createDigitalInput("BEAM_BREAK", BEAM_BREAK_PORT);
 
     protected static final SpeedMechanism2d INTAKE_MECHANISM = MechanismFactory.createSpeedMechanism("INTAKE_MECHANISM");
 
     static {
-        configureIntakeMotor();
+        configureIntakeMotorConfiguration();
     }
 
-    private static void configureIntakeMotor() {
+    private static void configureIntakeMotorConfiguration() {
         final MotorConfiguration intakeMotorConfiguration = new MotorConfiguration();
 
         intakeMotorConfiguration.supplyCurrentLimit = 40;
