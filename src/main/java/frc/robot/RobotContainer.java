@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.generic.GenericSubsystem;
 import frc.lib.util.Controller;
 import frc.lib.util.flippable.Flippable;
-import frc.robot.poseestimation.poseestimator.PoseEstimator5990;
+import frc.robot.poseestimation.poseestimator.PoseEstimator;
 import frc.robot.subsystems.leds.Leds;
 import frc.robot.subsystems.swerve.Swerve;
 import frc.robot.subsystems.swerve.SwerveCommands;
@@ -21,11 +21,14 @@ import java.util.function.DoubleSupplier;
 import static frc.lib.util.Controller.Axis.LEFT_X;
 import static frc.lib.util.Controller.Axis.LEFT_Y;
 import static frc.robot.commands.feederPathfinding.goToClosestFeeder;
-import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.FRONT_CAMERA;
+import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.*;
 
 public class RobotContainer {
-    public static final PoseEstimator5990 POSE_ESTIMATOR = new PoseEstimator5990(
-            FRONT_CAMERA
+    public static final PoseEstimator POSE_ESTIMATOR = new PoseEstimator(
+            FRONT_LEFT_CAMERA,
+            FRONT_RIGHT_CAMERA,
+            REAR_LEFT_CAMERA,
+            REAR_RIGHT_CAMERA
     );
 
     public static final Swerve SWERVE = new Swerve();
@@ -55,7 +58,7 @@ public class RobotContainer {
         setupLEDs();
 
         goToClosestFeeder(driveController.getButton(Controller.Inputs.A));
-
+        
         configureButtons(ButtonLayout.TELEOP);
     }
 

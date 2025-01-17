@@ -3,13 +3,17 @@ package frc.robot.poseestimation.photoncamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import frc.lib.generic.advantagekit.LoggableHardware;
+import frc.lib.generic.hardware.HardwareManager;
 import frc.robot.poseestimation.poseestimator.StandardDeviations;
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggableInputs;
+import org.littletonrobotics.junction.networktables.LoggedNetworkInput;
 
 import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.*;
 
-public class PhotonCameraIO {
+public class PhotonCameraIO implements LoggableHardware {
     private final String name;
     private final Transform3d robotCenterToCamera;
 
@@ -20,6 +24,8 @@ public class PhotonCameraIO {
     public PhotonCameraIO(String name, Transform3d robotCenterToCamera) {
         this.name = name;
         this.robotCenterToCamera = robotCenterToCamera;
+
+        HardwareManager.addHardware(this);
     }
 
     public double getLastResultTimestamp() {
@@ -50,13 +56,6 @@ public class PhotonCameraIO {
 
     protected void refreshInputs(CameraInputsAutoLogged inputs) { }
 
-    public void refresh() {
-        refreshInputs(inputs);
-        Logger.processInputs("Cameras/" + name, inputs);
-
-        logVisibleTags();
-    }
-
     private void logVisibleTags() {
         if (!inputs.hasResult) {
             Logger.recordOutput("UsedTags/" + name, new Pose3d[0]);
@@ -81,6 +80,19 @@ public class PhotonCameraIO {
 
     private double calculateStandardDeviation(double exponent, double distance, int numberOfVisibleTags) {
         return exponent * (distance * distance) / numberOfVisibleTags;
+    }
+
+    @Override
+    public void periodic() {
+        refreshInputs(inputs);
+        Logger.processInputs("Cameras/" + name, inputs);
+
+        logVisibleTags();
+    }
+
+    @Override
+    public CameraInputsAutoLogged getInputs() {
+        return inputs;
     }
 
     @AutoLog
