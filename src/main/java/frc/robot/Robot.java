@@ -8,7 +8,7 @@ import org.littletonrobotics.junction.LoggedRobot;
 
 import static frc.robot.RobotContainer.LEDS;
 import static frc.robot.RobotContainer.POSE_ESTIMATOR;
-import static frc.robot.poseestimation.photoncamera.CameraFactory.VISION_SIMULATION;
+import static frc.robot.poseestimation.photoncamera.VisionConstants.VISION_SIMULATION;
 
 public class Robot extends LoggedRobot {
     private final CommandScheduler commandScheduler = CommandScheduler.getInstance();
