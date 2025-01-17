@@ -17,12 +17,25 @@ public class PoseEstimatorConstants {
     static final double POSE_BUFFER_SIZE_SECONDS = 2;
     static final StandardDeviations ODOMETRY_STANDARD_DEVIATIONS = new StandardDeviations(Math.pow(0.003, 2), Math.pow(0.0002, 2));
 
-    static final Transform3d ROBOT_TO_FRONT_CAMERA = new Transform3d(
+    static final Transform3d ROBOT_TO_FRONT_LEFT_CAMERA = new Transform3d(
             0.27, 0.37, 0.19,
             new Rotation3d(0, Units.degreesToRadians(-28.125), Units.degreesToRadians(30))
+    ), ROBOT_TO_FRONT_RIGHT_CAMERA = new Transform3d(
+            -0.27, 0.37, 0.19,
+            new Rotation3d(0, Units.degreesToRadians(-28.125), Units.degreesToRadians(150))
+    ), ROBOT_TO_REAR_LEFT_CAMERA = new Transform3d(
+            0.27, -0.37, 0.19,
+            new Rotation3d(0, Units.degreesToRadians(-28.125), Units.degreesToRadians(-30))
+    ), ROBOT_TO_REAR_RIGHT_CAMERA = new Transform3d(
+            -0.27, -0.37, 0.19,
+            new Rotation3d(0, Units.degreesToRadians(-28.125), Units.degreesToRadians(210))
     );
 
-    public static final PhotonCameraIO FRONT_CAMERA = CameraFactory.generateCamera("FrontLeft1937", ROBOT_TO_FRONT_CAMERA);
+
+    public static final PhotonCameraIO FRONT_LEFT_CAMERA = CameraFactory.generateCamera("FrontLeft1937", ROBOT_TO_FRONT_LEFT_CAMERA),
+            FRONT_RIGHT_CAMERA = CameraFactory.generateCamera("FrontRight1937", ROBOT_TO_FRONT_RIGHT_CAMERA),
+            REAR_LEFT_CAMERA = CameraFactory.generateCamera("RearLeft1937", ROBOT_TO_REAR_LEFT_CAMERA),
+            REAR_RIGHT_CAMERA = CameraFactory.generateCamera("RearRight1937", ROBOT_TO_REAR_RIGHT_CAMERA);
 
     public static final double TRANSLATION_STD_EXPONENT = 0.005;
     public static final double ROTATION_STD_EXPONENT = 0.01;

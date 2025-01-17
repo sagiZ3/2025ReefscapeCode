@@ -36,8 +36,7 @@ public class AprilTagsCamera extends PhotonCameraIO {
     protected void refreshInputs(CameraInputsAutoLogged inputs) {
         final PhotonPipelineResult latestResult = getLatestResult();
 
-        inputs.hasResult = latestResult != null && latestResult.hasTargets() &&
-                latestResult.getBestTarget().getPoseAmbiguity() < MAXIMUM_AMBIGUITY;
+        inputs.hasResult = isValidResult(latestResult);
 
         if (inputs.hasResult) {
             inputs.estimatedRobotPose = getPose(latestResult);
@@ -48,6 +47,10 @@ public class AprilTagsCamera extends PhotonCameraIO {
         } else {
             updateWithNoResult(inputs);
         }
+    }
+
+    private boolean isValidResult(PhotonPipelineResult latestResult) {
+        return latestResult != null && (latestResult.hasTargets() && latestResult.getBestTarget().getPoseAmbiguity() < MAXIMUM_AMBIGUITY);
     }
 
     private void updateWithNoResult(CameraInputsAutoLogged inputs) {
