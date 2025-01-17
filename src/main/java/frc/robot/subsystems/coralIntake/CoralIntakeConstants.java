@@ -5,8 +5,6 @@ import frc.lib.generic.hardware.motor.*;
 import frc.lib.generic.hardware.sensors.Sensor;
 import frc.lib.generic.hardware.sensors.SensorFactory;
 import frc.lib.generic.simulation.SimulationProperties;
-import frc.lib.generic.visualization.mechanisms.MechanismFactory;
-import frc.lib.generic.visualization.mechanisms.SpeedMechanism2d;
 
 import static frc.robot.utilities.PortsConstants.IntakePorts.BEAM_BREAK_PORT;
 import static frc.robot.utilities.PortsConstants.IntakePorts.INTAKE_MOTOR_PORT;
@@ -14,8 +12,6 @@ import static frc.robot.utilities.PortsConstants.IntakePorts.INTAKE_MOTOR_PORT;
 public class CoralIntakeConstants {
     protected static final Motor INTAKE_MOTOR = MotorFactory.createTalonFX("INTAKE_MOTOR", INTAKE_MOTOR_PORT);
     protected static final Sensor BEAM_BREAK_SENSOR = SensorFactory.createDigitalInput("BEAM_BREAK", BEAM_BREAK_PORT);
-
-    protected static final SpeedMechanism2d INTAKE_MECHANISM = MechanismFactory.createSpeedMechanism("INTAKE_MECHANISM");
 
     static {
         configureIntakeMotorConfiguration();
