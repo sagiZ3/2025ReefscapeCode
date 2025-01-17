@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.generic.GenericSubsystem;
 import frc.lib.generic.hardware.motor.MotorProperties;
+import org.littletonrobotics.junction.Logger;
 
 import static frc.robot.subsystems.coralIntake.CoralIntakeConstants.BEAM_BREAK_SENSOR;
 import static frc.robot.subsystems.coralIntake.CoralIntakeConstants.INTAKE_MOTOR;
@@ -19,6 +20,11 @@ public class CoralIntake extends GenericSubsystem {
 
     public Command stop() {
         return Commands.runOnce(INTAKE_MOTOR::stopMotor);
+    }
+
+    @Override
+    public void periodic() {
+        Logger.recordOutput("doesHoldGamePiece", BEAM_BREAK_SENSOR.get() == 1);
     }
 
     private void setVoltage(double voltage) {
