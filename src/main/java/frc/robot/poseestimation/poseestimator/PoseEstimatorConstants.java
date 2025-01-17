@@ -37,7 +37,7 @@ public class PoseEstimatorConstants {
             REAR_LEFT_CAMERA = CameraFactory.generateCamera("RearLeft1937", ROBOT_TO_REAR_LEFT_CAMERA),
             REAR_RIGHT_CAMERA = CameraFactory.generateCamera("RearRight1937", ROBOT_TO_REAR_RIGHT_CAMERA);
 
-    public static final double TRANSLATION_STD_EXPONENT = 0.005;
+    public static final double TRANSLATION_STD_EXPONENT = 0.05;
     public static final double ROTATION_STD_EXPONENT = 0.01;
 
     public static final double MAXIMUM_AMBIGUITY = 0.4;

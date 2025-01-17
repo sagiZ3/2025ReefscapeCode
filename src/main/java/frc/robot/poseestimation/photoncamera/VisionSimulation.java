@@ -54,7 +54,7 @@ public class VisionSimulation {
 
     private void setupCameraProperties() {
         properties.setCalibration(960, 720, Rotation2d.fromDegrees(90));
-        properties.setCalibError(0.35, 0.10);
+        properties.setCalibError(0.12, 0.10);
         properties.setFPS(15);
         properties.setAvgLatencyMs(50);
         properties.setLatencyStdDevMs(15);
