@@ -18,6 +18,7 @@ import java.util.function.DoubleSupplier;
 import static frc.robot.RobotContainer.SWERVE;
 import static frc.robot.subsystems.swerve.SwerveConstants.SWERVE_ROTATION_CONTROLLER;
 import static frc.robot.subsystems.swerve.SwerveModuleConstants.MODULES;
+import static frc.robot.utilities.PathPlannerConstants.PATHPLANNER_CONSTRAINTS;
 
 public class SwerveCommands {
     public static Command stopDriving() {
@@ -40,20 +41,17 @@ public class SwerveCommands {
         );
     }
 
-    public static Command goToPoseBezier(Pose2d targetPose) {
-        return AutoBuilder.pathfindToPose(targetPose, new PathConstraints(
-                1,1,
-                1,1));
+    public static Command goToPoseBezier(Pose2d targetPose, double endVelocity) {
+        return AutoBuilder.pathfindToPose(targetPose, PATHPLANNER_CONSTRAINTS, endVelocity);
     }
 
     public static Command goToPoseWithPID(Pose2d targetPose) {
         final Pose2d fixedTargetPose = new Pose2d(targetPose.getTranslation(), Rotation2d.fromDegrees(MathUtil.inputModulus(targetPose.getRotation().getDegrees(), -180, 180)));
 
         return new FunctionalCommand(
-                () -> SWERVE.initializeDrive(true),
+                () -> SWERVE.initializeDrive(false),
                 () -> SWERVE.driveToPose(fixedTargetPose),
-                interrupt -> {
-                },
+                interrupt -> {},
                 () -> false,
                 SWERVE
         );

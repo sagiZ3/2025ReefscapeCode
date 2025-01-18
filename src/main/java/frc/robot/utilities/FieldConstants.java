@@ -1,14 +1,22 @@
 package frc.robot.utilities;
 
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.geometry.*;
 
 public class FieldConstants {
-    public static final Pose3d BLUE_TOP_FEEDER = new Pose3d(new Translation3d(0.84319, 7.41395, 0.9525),
-            new Rotation3d(0, 0, Math.toRadians(-54)));
-    public static final Pose3d BLUE_BOTTOM_FEEDER = new Pose3d(new Translation3d(0.84319, 0.65078, 0.9525),
-            new Rotation3d(0, 0, Math.toRadians(54)));
+    private static final Transform2d ROBOT_TRANSFORM = new Transform2d(new Translation2d(0.5, 0), Rotation2d.fromDegrees(180));
+
+    public static final Pose2d BLUE_TOP_FEEDER_INTAKE_POSE = new Pose2d(new Translation2d(0.84319, 7.41395),
+            Rotation2d.fromDegrees(-54)).transformBy(ROBOT_TRANSFORM);
+
+    public static final Pose2d BLUE_BOTTOM_FEEDER_INTAKE_POSE = new Pose2d(new Translation2d(0.84319, 0.65078),
+            Rotation2d.fromDegrees(54)).transformBy(ROBOT_TRANSFORM);
+
+    public static final Pose2d RED_TOP_FEEDER_INTAKE_POSE = new Pose2d(new Translation2d(16.697, 7.41395),
+            Rotation2d.fromDegrees(-126)).transformBy(ROBOT_TRANSFORM.inverse());
+
+    public static final Pose2d RED_BOTTOM_FEEDER_INTAKE_POSE = new Pose2d(new Translation2d(16.697, 0.65078),
+            Rotation2d.fromDegrees(126)).transformBy(ROBOT_TRANSFORM.inverse());
+
 
     public static final double FIELD_WIDTH = 8.05;
     public static final double FIELD_LENGTH = 17.55;

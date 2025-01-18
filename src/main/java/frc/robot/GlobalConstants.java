@@ -37,4 +37,6 @@ public class GlobalConstants {
             CURRENT_MODE = Mode.REPLAY;
         }
     }
+
+    public static final boolean IS_SIMULATION = CURRENT_MODE == Mode.SIMULATION;
 }

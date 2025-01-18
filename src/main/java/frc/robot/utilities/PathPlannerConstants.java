@@ -33,7 +33,7 @@ public class PathPlannerConstants {
     }
 
     public static final PPHolonomicDriveController PATHPLANNER_PID_CONSTANTS = new PPHolonomicDriveController(
-            new PIDConstants(6, 0.0, 0),
+            new PIDConstants(5.1, 0.0, 0),
             new PIDConstants(3, 0.0, 0)
     );
 
