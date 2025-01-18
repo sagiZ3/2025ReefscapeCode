@@ -81,7 +81,7 @@ public class SimulationProperties {
                     if (kv == 0 && ka == 0) {
                         yield new SimpleMotorSimulation(gearbox, gearRatio, momentOfInertia);
                     } else {
-                        yield new SimpleMotorSimulation(kv, ka, gearbox);
+                        yield new SimpleMotorSimulation(kv, ka, gearbox, gearRatio);
                     }
                 }
 
