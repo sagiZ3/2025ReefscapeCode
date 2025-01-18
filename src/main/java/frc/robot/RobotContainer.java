@@ -20,7 +20,7 @@ import java.util.function.DoubleSupplier;
 
 import static frc.lib.util.Controller.Axis.LEFT_X;
 import static frc.lib.util.Controller.Axis.LEFT_Y;
-import static frc.robot.commands.feederPathfinding.setupFeederPathfinding;
+import static frc.robot.commands.PathfindingCommands.setupFeederPathfinding;
 import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.*;
 
 public class RobotContainer {
