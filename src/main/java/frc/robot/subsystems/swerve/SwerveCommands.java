@@ -48,7 +48,7 @@ public class SwerveCommands {
         final Pose2d fixedTargetPose = new Pose2d(targetPose.getTranslation(), Rotation2d.fromDegrees(MathUtil.inputModulus(targetPose.getRotation().getDegrees(), -180, 180)));
 
         return new FunctionalCommand(
-                () -> SWERVE.initializeDrive(false),
+                () -> SWERVE.initializeDrive(true),
                 () -> SWERVE.driveToPose(fixedTargetPose),
                 interrupt -> {},
                 () -> false,
