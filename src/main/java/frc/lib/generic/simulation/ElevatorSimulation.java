@@ -13,6 +13,8 @@ public class ElevatorSimulation extends GenericPhysicsSimulation {
     private final double drumDiameterMetres;
 
     public ElevatorSimulation(DCMotor gearbox, double gearRatio, double carriageMassKilograms, double drumRadiusMeters, double minimumHeightMetres, double maximumHeightMetres, boolean simulateGravity) {
+        super(gearRatio);
+
         elevatorSimulation = new ExtendedElevatorSim(
                 gearbox,
                 gearRatio,

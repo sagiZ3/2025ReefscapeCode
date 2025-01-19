@@ -108,8 +108,10 @@ public class SimulatedTalonMotor extends Motor {
             return false;
         }
 
+        talonConfig.Feedback.SensorToMechanismRatio = configuration.gearRatio;
+
         configureMotionMagic();
-        setTalonConfig();
+        configurePIDSlot();
 
         talonConfig.ClosedLoopGeneral.ContinuousWrap = configuration.closedLoopContinuousWrap;
 
@@ -131,7 +133,7 @@ public class SimulatedTalonMotor extends Motor {
         shouldUseProfile = true;
     }
 
-    private void setTalonConfig() {
+    private void configurePIDSlot() {
         talonConfig.Slot0.kP = currentConfiguration.simulationSlot.kP();
         talonConfig.Slot0.kI = currentConfiguration.simulationSlot.kI();
         talonConfig.Slot0.kD = currentConfiguration.simulationSlot.kD();
@@ -194,8 +196,8 @@ public class SimulatedTalonMotor extends Motor {
         simulation.setVoltage(talonFXSimState.getMotorVoltage());
         simulation.updateMotor();
 
-        talonFXSimState.setRawRotorPosition(simulation.getSystemPositionRotations());
-        talonFXSimState.setRotorVelocity(simulation.getSystemVelocityRotationsPerSecond());
-        talonFXSimState.setRotorAcceleration(simulation.getSystemAccelerationRotationsPerSecondSquared());
+        talonFXSimState.setRawRotorPosition(simulation.getMotorPositionRotations());
+        talonFXSimState.setRotorVelocity(simulation.getMotorVelocityRotationsPerSecond());
+        talonFXSimState.setRotorAcceleration(simulation.getMotorAccelerationRotationsPerSecondSquared());
     }
 }
