@@ -28,13 +28,13 @@ public class SwerveConstants {
             ROTATION_NEUTRAL_DEADBAND = 0.15;
 
     static final PID SWERVE_TRANSLATION_CONTROLLER = IS_SIMULATION
-            ? new PID(0.6,0,0)
+            ? new PID(4,0,0)
             : new PID(5,0,0);
 
 
     static final ProfiledPIDController SWERVE_ROTATION_CONTROLLER = IS_SIMULATION ?
             new ProfiledPIDController(
-                    0.05, 0, 0,
+                    0.1, 0, 0,
                     new TrapezoidProfile.Constraints(360, 360)
             )
             :
@@ -57,6 +57,6 @@ public class SwerveConstants {
 
     private static void configureRotationController() {
         SWERVE_ROTATION_CONTROLLER.enableContinuousInput(-180, 180);
-        SWERVE_ROTATION_CONTROLLER.setTolerance(1.5);
+        SWERVE_ROTATION_CONTROLLER.setTolerance(1);
     }
 }
