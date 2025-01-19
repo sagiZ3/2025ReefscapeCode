@@ -20,6 +20,7 @@ import java.util.function.DoubleSupplier;
 
 import static frc.lib.util.Controller.Axis.LEFT_X;
 import static frc.lib.util.Controller.Axis.LEFT_Y;
+import static frc.robot.commands.PathfindingCommands.setupFeederPathfinding;
 import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.*;
 
 public class RobotContainer {
@@ -56,6 +57,8 @@ public class RobotContainer {
 
         setupLEDs();
 
+        setupFeederPathfinding(driveController.getButton(Controller.Inputs.A));
+        
         configureButtons(ButtonLayout.TELEOP);
     }
 
@@ -70,10 +73,6 @@ public class RobotContainer {
         driveController.getButton(Controller.Inputs.B).whileTrue(subsystem.getSysIdQuastatic(SysIdRoutine.Direction.kReverse));
         driveController.getButton(Controller.Inputs.Y).whileTrue(subsystem.getSysIdDynamic(SysIdRoutine.Direction.kForward));
         driveController.getButton(Controller.Inputs.X).whileTrue(subsystem.getSysIdDynamic(SysIdRoutine.Direction.kReverse));
-    }
-
-    private enum ButtonLayout {
-        TELEOP
     }
 
     private void setupLEDs() {
@@ -125,5 +124,9 @@ public class RobotContainer {
 
     private void setupAutonomous() {
         autoChooser = new LoggedDashboardChooser<>("AutoChooser", AutoBuilder.buildAutoChooser(""));
+    }
+
+    private enum ButtonLayout {
+        TELEOP
     }
 }
