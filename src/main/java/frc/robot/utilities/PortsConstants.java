@@ -35,7 +35,7 @@ public class PortsConstants {
         public static final int
                 MASTER_MOTOR_PORT = 7,
                 SLAVE_MOTOR_PORT = 8,
-                TOP_BEAM_BREAK_DIO_PORT = 15,     // DIO - can overlap with CAN port
-                BOTTOM_BEAM_BREAK_DIO_PORT = 16;  // DIO - can overlap with CAN port
+                TOP_BEAM_BREAK_DIO_PORT = 15,
+                BOTTOM_BEAM_BREAK_DIO_PORT = 16;
     }
 }
