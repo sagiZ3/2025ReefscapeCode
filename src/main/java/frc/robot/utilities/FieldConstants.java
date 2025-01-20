@@ -10,4 +10,9 @@ public class FieldConstants {
 
     public static final double FIELD_WIDTH = 8.05;
     public static final double FIELD_LENGTH = 17.55;
+
+    public static final double
+            L1_HEIGHT = 0.45,
+            L2_HEIGHT = 0.8,
+            L3_HEIGHT = 1.21;
 }
