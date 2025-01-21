@@ -47,6 +47,7 @@ public class ElevatorConstants {
 
     private static void configureMotorConfiguration() {
         final MotorConfiguration ELEVATOR_MOTORS_CONFIGURATION = new MotorConfiguration();
+
         SLAVE_MOTOR.setFollowerOf(MASTER_MOTOR, true);
 
         ELEVATOR_MOTORS_CONFIGURATION.idleMode = MotorProperties.IdleMode.BRAKE;
