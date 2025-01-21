@@ -6,6 +6,7 @@ import frc.lib.generic.hardware.sensors.Sensor;
 import frc.lib.generic.hardware.sensors.SensorFactory;
 import frc.lib.generic.simulation.SimulationProperties;
 import frc.lib.generic.visualization.mechanisms.ElevatorMechanism2d;
+import frc.lib.math.Conversions;
 import frc.robot.GlobalConstants;
 import frc.robot.utilities.PortsConstants;
 
@@ -27,6 +28,18 @@ public class ElevatorConstants {
             WHEEL_SCOPE = Math.PI * WHEEL_DIAMETER;
 
     protected static final ElevatorMechanism2d ELEVATOR_MECHANISM = new ElevatorMechanism2d("Elevator Mechanism", 1);
+
+    public enum ElevatorLevels {
+        BOTTOM(0), L1(0.457), L2(0.793), L3(1.196), FEEDER(0.93);
+
+        public final double rotations;
+        public final double meters;
+
+        ElevatorLevels(double meters) {
+            this.rotations = Conversions.metresToRotations(meters, WHEEL_DIAMETER);
+            this.meters = meters;
+        }
+    }
 
     static {
         configureMotorConfiguration();

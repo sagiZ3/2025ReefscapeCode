@@ -12,7 +12,7 @@ public class FieldConstants {
     public static final double FIELD_LENGTH = 17.55;
 
     public static final double
-            L1_HEIGHT = 0.45,
-            L2_HEIGHT = 0.8,
-            L3_HEIGHT = 1.21;
+            L1_HEIGHT_METERS = 0.457,
+            L2_HEIGHT = 0.793,
+            L3_HEIGHT = 1.196;
 }
