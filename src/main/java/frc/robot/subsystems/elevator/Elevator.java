@@ -14,10 +14,10 @@ import static frc.robot.GlobalConstants.Mode.REAL;
 import static frc.robot.subsystems.elevator.ElevatorConstants.*;
 
 public class Elevator extends GenericSubsystem {
-    public Command setTargetPosition(ElevatorLevels levels){
+    public Command setTargetPosition(ElevatorLevel level){
         return Commands.runEnd(() -> {
-            setMotorPosition(levels.rotations);
-            if (CURRENT_MODE != REAL) printPose(levels.meters);
+            setMotorPosition(level.rotations);
+            if (CURRENT_MODE != REAL) printPose(level.meters);
         }, this::stopMotors, this);
     }
 
