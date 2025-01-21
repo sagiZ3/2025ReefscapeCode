@@ -24,7 +24,6 @@ import static frc.lib.util.Controller.Axis.LEFT_X;
 import static frc.lib.util.Controller.Axis.LEFT_Y;
 import static frc.robot.commands.PathfindingCommands.setupFeederPathfinding;
 import static frc.robot.poseestimation.poseestimator.PoseEstimatorConstants.*;
-import static frc.robot.utilities.FieldConstants.*;
 
 public class RobotContainer {
     public static final PoseEstimator POSE_ESTIMATOR = new PoseEstimator(
@@ -63,13 +62,13 @@ public class RobotContainer {
 
         setupFeederPathfinding(driveController.getButton(Controller.Inputs.A));
 
-        driveController.getButton(Controller.Inputs.B).whileTrue(ELEVATOR.setTargetPosition(ElevatorLevels.BOTTOM));
-        driveController.getButton(Controller.Inputs.A).whileTrue(ELEVATOR.setTargetPosition(ElevatorLevels.L1));
-        driveController.getButton(Controller.Inputs.Y).whileTrue(ELEVATOR.setTargetPosition(ElevatorLevels.L3));
-        driveController.getButton(Controller.Inputs.X).whileTrue(ELEVATOR.setTargetPosition(ElevatorLevels.FEEDER));
+        driveController.getButton(Controller.Inputs.B).whileTrue(ELEVATOR.setTargetPosition(ElevatorLevel.BOTTOM));
+        driveController.getButton(Controller.Inputs.A).whileTrue(ELEVATOR.setTargetPosition(ElevatorLevel.L1));
+        driveController.getButton(Controller.Inputs.Y).whileTrue(ELEVATOR.setTargetPosition(ElevatorLevel.L3));
+        driveController.getButton(Controller.Inputs.X).whileTrue(ELEVATOR.setTargetPosition(ElevatorLevel.FEEDER));
 
         ELEVATOR.setDefaultCommand(
-                ELEVATOR.setTargetPosition(ElevatorLevels.L2)
+                ELEVATOR.setTargetPosition(ElevatorLevel.L2)
         );
 
         configureButtons(ButtonLayout.TELEOP);
