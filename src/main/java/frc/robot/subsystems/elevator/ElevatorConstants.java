@@ -66,7 +66,7 @@ public class ElevatorConstants {
                 WHEEL_DIAMETER / 2,
                 0.1,
                 1.9,
-        true
+                true
         );
 
         MASTER_MOTOR.setupSignalUpdates(MotorSignal.VOLTAGE);
