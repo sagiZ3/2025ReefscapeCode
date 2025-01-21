@@ -24,8 +24,7 @@ public class ElevatorConstants {
 
     protected static final double
             ELEVATOR_MAX_EXTENSION_METERS = 0.86,
-            WHEEL_DIAMETER = 0.04,
-            WHEEL_SCOPE = Math.PI * WHEEL_DIAMETER;
+            WHEEL_DIAMETER = 0.04;
 
     protected static final ElevatorMechanism2d ELEVATOR_MECHANISM = new ElevatorMechanism2d("Elevator Mechanism", 1);
 
