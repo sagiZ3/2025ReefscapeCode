@@ -17,7 +17,8 @@ public class Elevator extends GenericSubsystem {
     public Command setTargetPosition(ElevatorHeight level){
         return Commands.runEnd(() -> {
             setMotorPosition(level.rotations);
-            if (CURRENT_MODE != REAL) printPose(level.meters);
+            if (CURRENT_MODE != REAL)
+                printPose(level.meters);
         }, this::stopMotors, this);
     }
 
