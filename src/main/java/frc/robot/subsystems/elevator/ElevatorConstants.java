@@ -30,7 +30,8 @@ public class ElevatorConstants {
     protected static final ElevatorMechanism2d ELEVATOR_MECHANISM = new ElevatorMechanism2d("Elevator Mechanism", 1);
 
     public enum ElevatorLevel {
-        BOTTOM(0), L1(0.457), L2(0.793), L3(1.196), FEEDER(0.93);
+        L1(0.457), L2(0.793), L3(1.196),
+        FEEDER(0.93), CLIMB(0);
 
         public final double rotations;
         public final double meters;
