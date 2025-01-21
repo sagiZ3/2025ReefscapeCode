@@ -30,7 +30,7 @@ public class Elevator extends GenericSubsystem {
     }
 
     private void printPose(double targetPositionMeters) {
-        double currentElevatorPosition = Conversions.rotationsToMetres(MASTER_MOTOR.getSystemPosition(), WHEEL_DIAMETER);
+        final double currentElevatorPosition = Conversions.rotationsToMetres(MASTER_MOTOR.getSystemPosition(), WHEEL_DIAMETER);
 
         final Pose3d current3DPose = new Pose3d(0, 0, currentElevatorPosition, new Rotation3d(0, 0, 0));
         Logger.recordOutput("Elevator", current3DPose);
