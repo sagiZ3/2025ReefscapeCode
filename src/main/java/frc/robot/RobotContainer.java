@@ -62,13 +62,13 @@ public class RobotContainer {
 
         setupFeederPathfinding(driveController.getButton(Controller.Inputs.A));
 
-        driveController.getButton(Controller.Inputs.B).whileTrue(ELEVATOR.setTargetPosition(ElevatorLevel.CLIMB));
-        driveController.getButton(Controller.Inputs.A).whileTrue(ELEVATOR.setTargetPosition(ElevatorLevel.L1));
-        driveController.getButton(Controller.Inputs.Y).whileTrue(ELEVATOR.setTargetPosition(ElevatorLevel.L3));
-        driveController.getButton(Controller.Inputs.X).whileTrue(ELEVATOR.setTargetPosition(ElevatorLevel.FEEDER));
+        driveController.getButton(Controller.Inputs.B).whileTrue(ELEVATOR.setTargetPosition(ElevatorHeight.CLIMB));
+        driveController.getButton(Controller.Inputs.A).whileTrue(ELEVATOR.setTargetPosition(ElevatorHeight.L1));
+        driveController.getButton(Controller.Inputs.Y).whileTrue(ELEVATOR.setTargetPosition(ElevatorHeight.L3));
+        driveController.getButton(Controller.Inputs.X).whileTrue(ELEVATOR.setTargetPosition(ElevatorHeight.FEEDER));
 
         ELEVATOR.setDefaultCommand(
-                ELEVATOR.setTargetPosition(ElevatorLevel.L2)
+                ELEVATOR.setTargetPosition(ElevatorHeight.L2)
         );
 
         configureButtons(ButtonLayout.TELEOP);
