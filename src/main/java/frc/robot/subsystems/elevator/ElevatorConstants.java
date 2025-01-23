@@ -29,8 +29,9 @@ public class ElevatorConstants {
     protected static final ElevatorMechanism2d ELEVATOR_MECHANISM = new ElevatorMechanism2d("Elevator Mechanism", 1);
 
     public enum ElevatorHeight {
-        L1(0.46), L2(0.79), L3(1.2),
-        FEEDER(0.93), CLIMB(0);
+        L1(0), L2(0.79 - (0.483 + 0.36268) + 0.075), L3(1.2 - (0.483 + 0.36268) + 0.075),
+        FEEDER(0.93 - (0.483 + 0.36268) + 0.075), CLIMB(0);
+        // 0.283 - the dif between the coral flywheels to the elevator carriage
 
         public final double rotations;
         public final double meters;
